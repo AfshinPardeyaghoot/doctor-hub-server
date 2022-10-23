@@ -23,7 +23,6 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         HttpResponseStatus status = new HttpResponseStatus(
                 ex.getMessage(),
                 HttpStatus.NOT_FOUND
-
         );
         return new ResponseEntity<>(new HttpResponse<>(status), HttpStatus.NOT_FOUND);
     }
@@ -34,7 +33,6 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         HttpResponseStatus status = new HttpResponseStatus(
                 ex.getMessage(),
                 ex.getStatus()
-
         );
         return new ResponseEntity<>(new HttpResponse<>(status), ex.getStatus());
     }
@@ -45,7 +43,6 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         HttpResponseStatus status = new HttpResponseStatus(
                 ".خطا در پزدازش اطلاعات!\nلطفابا پشتیبانی تماس بگیرید",
                 HttpStatus.INTERNAL_SERVER_ERROR
-
         );
         return new ResponseEntity<>(new HttpResponse<>(status), HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -56,7 +53,6 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         HttpResponseStatus httpResponseStatus = new HttpResponseStatus(
                 ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage(),
                 status
-
         );
         return new ResponseEntity<>(new HttpResponse<>(httpResponseStatus), status);
     }

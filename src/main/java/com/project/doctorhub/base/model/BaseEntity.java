@@ -29,6 +29,7 @@ public class BaseEntity<PK extends Serializable> {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    @Column(name = "is_deleted")
     private Boolean isDeleted;
 
 }
