@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/doctor_hub
+    username: afshin
+    password: 1123581321
+
+  jpa:
+    database: postgresql
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+log:
+  file:
+    path: /home/afshinpy/doctor_hub/logs
