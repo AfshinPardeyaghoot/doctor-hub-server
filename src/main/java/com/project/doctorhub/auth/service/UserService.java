@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService
-        extends AbstractCrudService<User, Long, UserRepository>
-        implements UserDetailsService {
+        extends AbstractCrudService<User, Long, UserRepository> {
 
     private final UserRepository userRepository;
 
@@ -26,8 +25,6 @@ public class UserService
         return userRepository.findByPhone(phone)
                 .orElseThrow(() -> new NotFoundException("کاربر یافت نشد!"));
     }
-
-    @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
         User user = userRepository.findByPhone(phone)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found!"));

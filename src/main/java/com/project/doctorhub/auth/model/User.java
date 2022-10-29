@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,6 +24,13 @@ public class User extends BaseEntity<Long> {
 
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;
+
+    @Column(name = "authentication_code")
+    private String authenticationCode;
+
+    @Column(name = "authentication_code_exp_at")
+    private Instant authenticationCodeExpAt;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
 
