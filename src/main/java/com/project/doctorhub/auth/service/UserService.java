@@ -1,6 +1,8 @@
 package com.project.doctorhub.auth.service;
 
+import com.project.doctorhub.auth.model.Role;
 import com.project.doctorhub.auth.model.User;
+import com.project.doctorhub.auth.model.UserRole;
 import com.project.doctorhub.auth.repository.UserRepository;
 import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.model.ApplicationProperties;
@@ -18,18 +20,24 @@ public class UserService
 
     private final StringUtil stringUtil;
     private final SmsService smsService;
+    private final RoleService roleService;
     private final UserRepository userRepository;
+    private final UserRoleService userRoleService;
     private final ApplicationProperties applicationProperties;
 
     public UserService(
             StringUtil stringUtil,
             SmsService smsService,
+            RoleService roleService,
+            UserRoleService userRoleService,
             UserRepository abstractRepository,
             ApplicationProperties applicationProperties
     ) {
         super(abstractRepository);
         this.stringUtil = stringUtil;
         this.smsService = smsService;
+        this.roleService = roleService;
+        this.userRoleService = userRoleService;
         this.userRepository = abstractRepository;
         this.applicationProperties = applicationProperties;
     }
@@ -66,6 +74,16 @@ public class UserService
     private User create(String phone) {
         User user = new User();
         user.setPhone(phone);
-        return save(user);
+        user.setIsDeleted(false);
+        save(user);
+        addUserRole(user);
+        return user;
+    }
+
+    private void addUserRole(User user) {
+        Role role = roleService.getByName(Role.USER_ROLE);
+        UserRole userRole = userRoleService.create(user, role);
+        userRole.getUser().getUserRoles().add(userRole);
+        user.getUserRoles().add(userRole);
     }
 }
