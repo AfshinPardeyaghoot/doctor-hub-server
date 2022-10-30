@@ -1,4 +1,4 @@
-package com.project.doctorhub.auth.security;
+package com.project.doctorhub.auth.securityConfig;
 
 import com.project.doctorhub.auth.model.User;
 import com.project.doctorhub.auth.service.UserService;

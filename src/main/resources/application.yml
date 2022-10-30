@@ -18,3 +18,11 @@ spring:
 log:
   file:
     path: /home/afshinpy/doctor_hub/logs
+
+doctorhub:
+  auth:
+    verificationCode:
+      expireAfterMinute:3
+      length:6
+
+
