@@ -23,7 +23,6 @@ public class OtpAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        log.info("in authenticate provider authentication object authenticated for user {}");
         String phone = (String) authentication.getPrincipal();
         String code = (String) authentication.getCredentials();
         log.info("Authentication provider phone is {} and code is {}", phone, code);
