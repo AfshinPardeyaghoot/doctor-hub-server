@@ -67,7 +67,7 @@ public class OtpAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 )
         );
         response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), new HttpResponse<>(httpResponse));
+        new ObjectMapper().writeValue(response.getOutputStream(), httpResponse);
     }
 
 
