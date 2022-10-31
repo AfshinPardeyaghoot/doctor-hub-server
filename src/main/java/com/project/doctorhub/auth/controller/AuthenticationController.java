@@ -27,6 +27,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(new HttpResponse<>(Map.of("message", "کد احراز هویت برای شما ارسال شد.")));
     }
 
+    @GetMapping("/token/refresh/{uuid}")
+    public ResponseEntity<?> getAccessTokenByRefreshToken(@PathVariable String uuid) {
+        return null;
+    }
+
     @GetMapping("/test")
     public ResponseEntity<?> testAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
