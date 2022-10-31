@@ -49,7 +49,9 @@ public class OtpAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
+            throws IOException, ServletException {
+
         String phone = (String) authResult.getPrincipal();
         User user = userService.findByPhone(phone);
         AuthenticationTokenDTO authenticationTokenDTO = jwtUtil.generateAuthenticationToken(user);
@@ -58,7 +60,9 @@ public class OtpAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
+            throws IOException, ServletException {
+
         response.setStatus(400);
         HttpResponse<?> httpResponse = new HttpResponse<>(
                 new HttpResponseStatus(
