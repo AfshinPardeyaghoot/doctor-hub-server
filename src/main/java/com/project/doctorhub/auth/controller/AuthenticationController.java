@@ -1,5 +1,6 @@
 package com.project.doctorhub.auth.controller;
 
+import com.project.doctorhub.auth.dto.AuthenticationTokenDTO;
 import com.project.doctorhub.auth.dto.SendVerificationCodeDTO;
 import com.project.doctorhub.auth.service.UserService;
 import com.project.doctorhub.base.dto.HttpResponse;
@@ -16,11 +17,10 @@ import java.util.Map;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
-
     private final UserService userService;
 
     @PostMapping("/sendVerificationCode")
-    public ResponseEntity<?> sendVerificationCode(
+    public ResponseEntity<HttpResponse<Map<String, Object>>> sendVerificationCode(
             @Valid @RequestBody SendVerificationCodeDTO sendVerificationCodeDTO
     ) {
         userService.sendUserAuthenticationCode(sendVerificationCodeDTO.getPhone());
@@ -28,8 +28,11 @@ public class AuthenticationController {
     }
 
     @GetMapping("/token/refresh/{uuid}")
-    public ResponseEntity<?> getAccessTokenByRefreshToken(@PathVariable String uuid) {
-        return null;
+    public ResponseEntity<HttpResponse<AuthenticationTokenDTO>> getAccessTokenByRefreshToken(
+            @PathVariable String uuid
+    ) {
+        AuthenticationTokenDTO authenticationTokenDTO = userService.refreshTokens(uuid);
+        return ResponseEntity.ok(new HttpResponse<>(authenticationTokenDTO));
     }
 
     @GetMapping("/test")

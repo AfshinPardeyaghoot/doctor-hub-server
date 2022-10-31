@@ -3,6 +3,7 @@ package com.project.doctorhub.auth.service;
 import com.project.doctorhub.auth.model.RefreshToken;
 import com.project.doctorhub.auth.model.User;
 import com.project.doctorhub.auth.repository.RefreshTokenRepository;
+import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.service.AbstractCrudService;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +28,20 @@ public class RefreshTokenService
                 .findByUser(user)
                 .orElseGet(() -> create(user));
 
+        refreshToken.setIsDeleted(false);
         refreshToken.setUUID(UUID.randomUUID().toString());
         refreshToken.setExpireAt(Instant.now().plus(lifeTime, ChronoUnit.MINUTES));
         return save(refreshToken);
+    }
+
+    public User getRefreshTokenUser(String uuid) {
+        RefreshToken refreshToken = refreshTokenRepository
+                .findByUUIDAndExpireAtIsAfterAndIsDeletedFalse(uuid, Instant.now())
+                .orElseThrow(
+                        () -> new NotFoundException("Refresh token not found")
+                );
+
+        return refreshToken.getUser();
     }
 
     private RefreshToken create(User user) {
