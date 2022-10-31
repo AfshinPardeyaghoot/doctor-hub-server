@@ -23,6 +23,9 @@ public class BaseEntity<PK extends Serializable> {
     @Column(nullable = false, updatable = false)
     private PK id;
 
+    @Column(name = "uuid")
+    private String UUID = java.util.UUID.randomUUID().toString();
+
     @CreationTimestamp
     private Instant createdAt;
 

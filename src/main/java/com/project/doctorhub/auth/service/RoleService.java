@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class RoleService extends AbstractCrudService<Role, Long, RoleRepository> {
+public class RoleService
+        extends AbstractCrudService<Role, Long, RoleRepository> {
 
     private final RoleRepository roleRepository;
 

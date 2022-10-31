@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.naming.AuthenticationException;
+
 
 @RestController
 @ControllerAdvice
@@ -22,11 +24,24 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ex.printStackTrace();
         HttpResponseStatus status = new HttpResponseStatus(
                 ex.getMessage(),
-                HttpStatus.NOT_FOUND
+                HttpStatus.NOT_FOUND.value()
         );
         return new ResponseEntity<>(
                 new HttpResponse<>(status),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public final ResponseEntity<HttpResponse<?>> handleAuthenticationException(AuthenticationException ex) {
+        ex.printStackTrace();
+        HttpResponseStatus status = new HttpResponseStatus(
+                ex.getMessage(),
+                HttpStatus.UNAUTHORIZED.value()
+        );
+        return new ResponseEntity<>(
+                new HttpResponse<>(status),
+                HttpStatus.UNAUTHORIZED
         );
     }
 
@@ -35,7 +50,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ex.printStackTrace();
         HttpResponseStatus status = new HttpResponseStatus(
                 ex.getMessage(),
-                ex.getStatus()
+                ex.getStatus().value()
         );
         return new ResponseEntity<>(
                 new HttpResponse<>(status),
@@ -48,7 +63,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ex.printStackTrace();
         HttpResponseStatus status = new HttpResponseStatus(
                 ".خطا در پزدازش اطلاعات!\nلطفابا پشتیبانی تماس بگیرید",
-                HttpStatus.INTERNAL_SERVER_ERROR
+                HttpStatus.INTERNAL_SERVER_ERROR.value()
         );
         return new ResponseEntity<>(
                 new HttpResponse<>(status),
@@ -66,7 +81,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ex.printStackTrace();
         HttpResponseStatus httpResponseStatus = new HttpResponseStatus(
                 ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage(),
-                status
+                status.value()
         );
         return new ResponseEntity<>(
                 new HttpResponse<>(httpResponseStatus),

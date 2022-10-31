@@ -8,7 +8,8 @@ import com.project.doctorhub.base.service.AbstractCrudService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserRoleService extends AbstractCrudService<UserRole, Long, UserRoleRepository> {
+public class UserRoleService
+        extends AbstractCrudService<UserRole, Long, UserRoleRepository> {
 
     public UserRoleService(UserRoleRepository abstractRepository) {
         super(abstractRepository);

@@ -5,7 +5,8 @@ import com.project.doctorhub.base.repository.AbstractRepository;
 
 import java.util.Optional;
 
-public interface RoleRepository extends AbstractRepository<Role, Long> {
+public interface RoleRepository
+        extends AbstractRepository<Role, Long> {
 
     Optional<Role> findByNameIgnoreCase(String name);
 }

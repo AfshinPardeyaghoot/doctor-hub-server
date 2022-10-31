@@ -1,5 +1,7 @@
 package com.project.doctorhub.auth.config.security;
 
+import com.project.doctorhub.auth.util.JWTUtil;
+import com.project.doctorhub.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,7 +11,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 @RequiredArgsConstructor
-public class AuthorizationConfiguration extends WebSecurityConfigurerAdapter {
+public class AuthorizationConfiguration
+        extends WebSecurityConfigurerAdapter {
+
+    private final JWTUtil jwtUtil;
+    private final UserService userService;
 
     public AuthenticationManager authenticationManager() {
         try {
@@ -22,7 +28,12 @@ public class AuthorizationConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        OtpAuthenticationFilter otpAuthenticationFilter = new OtpAuthenticationFilter(authenticationManager());
+        OtpAuthenticationFilter otpAuthenticationFilter =
+                new OtpAuthenticationFilter(
+                        jwtUtil,
+                        userService,
+                        authenticationManager()
+                );
         otpAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
