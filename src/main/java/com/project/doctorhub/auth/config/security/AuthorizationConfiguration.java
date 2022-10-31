@@ -31,12 +31,7 @@ public class AuthorizationConfiguration
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        OtpAuthenticationFilter otpAuthenticationFilter =
-                new OtpAuthenticationFilter(
-                        jwtUtil,
-                        userService,
-                        authenticationManager()
-                );
+        OtpAuthenticationFilter otpAuthenticationFilter = new OtpAuthenticationFilter(jwtUtil, userService, authenticationManager());
         otpAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
