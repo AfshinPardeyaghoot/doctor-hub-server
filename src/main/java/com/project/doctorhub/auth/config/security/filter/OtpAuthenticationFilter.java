@@ -1,6 +1,7 @@
 package com.project.doctorhub.auth.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.doctorhub.auth.dto.AuthenticationRequestDTO;
 import com.project.doctorhub.auth.dto.AuthenticationTokenDTO;
 import com.project.doctorhub.auth.model.User;
 import com.project.doctorhub.auth.service.UserService;
@@ -35,17 +36,21 @@ public class OtpAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("in authenticate filter user Authentication object created");
-        String phone = request.getParameter("phone");
-        String code = request.getParameter("code");
-        log.info("Phone is {} and Code is {}", phone, code);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                phone,
-                code
-        );
+        try {
+            AuthenticationRequestDTO authenticationRequestDTO =
+                    new ObjectMapper().readValue(request.getInputStream(), AuthenticationRequestDTO.class);
 
-        return authenticationManager.authenticate(authentication);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    authenticationRequestDTO.getPhone(),
+                    authenticationRequestDTO.getCode()
+            );
+
+            return authenticationManager.authenticate(authentication);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
