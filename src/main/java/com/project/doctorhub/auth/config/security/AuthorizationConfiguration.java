@@ -4,6 +4,7 @@ import com.project.doctorhub.auth.service.UserService;
 import com.project.doctorhub.auth.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -39,7 +40,7 @@ public class AuthorizationConfiguration
         otpAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/v1/auth/login", "/api/v1/auth/sendVerificationCode").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/sendVerificationCode").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
         http.addFilter(otpAuthenticationFilter);
