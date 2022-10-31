@@ -1,7 +1,6 @@
 package com.project.doctorhub.auth.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.doctorhub.base.dto.HttpResponse;
 import com.project.doctorhub.base.dto.HttpResponseStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -25,14 +24,14 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             AuthenticationException authException
     ) throws IOException, ServletException {
 
-        HttpResponse<?> httpResponse = new HttpResponse<>(
-                new HttpResponseStatus(
-                        "!احراز هویت ناموفق بود",
-                        HttpStatus.UNAUTHORIZED.value()
-                )
+        response.setStatus(401);
+
+        HttpResponseStatus status = new HttpResponseStatus(
+                "دسترسی غیر مجاز!",
+                HttpStatus.UNAUTHORIZED.value()
         );
 
         response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), httpResponse);
+        new ObjectMapper().writeValue(response.getOutputStream(), status);
     }
 }

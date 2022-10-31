@@ -1,5 +1,7 @@
 package com.project.doctorhub.auth.config.security;
 
+import com.project.doctorhub.auth.config.security.filter.JwtAuthorizationFilter;
+import com.project.doctorhub.auth.config.security.filter.OtpAuthenticationFilter;
 import com.project.doctorhub.auth.service.UserService;
 import com.project.doctorhub.auth.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -18,6 +21,7 @@ public class AuthorizationConfiguration
 
     private final JWTUtil jwtUtil;
     private final UserService userService;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final AuthenticationEntryPoint authenticationEntryPoint;
 
     public AuthenticationManager authenticationManager() {
@@ -35,6 +39,7 @@ public class AuthorizationConfiguration
         otpAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/sendVerificationCode").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
