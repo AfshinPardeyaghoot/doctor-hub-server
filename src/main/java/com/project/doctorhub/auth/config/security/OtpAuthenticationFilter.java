@@ -1,4 +1,4 @@
-package com.project.doctorhub.auth.securityConfig;
+package com.project.doctorhub.auth.config.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
