@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -21,7 +22,8 @@ public class AuthenticationController {
 
     @PostMapping("/sendVerificationCode")
     public ResponseEntity<HttpResponse<Map<String, Object>>> sendVerificationCode(
-            @Valid @RequestBody SendVerificationCodeDTO sendVerificationCodeDTO
+            @Valid @RequestBody SendVerificationCodeDTO sendVerificationCodeDTO,
+            HttpServletResponse response
     ) {
         userService.sendUserAuthenticationCode(sendVerificationCodeDTO.getPhone());
         return ResponseEntity.ok(new HttpResponse<>(Map.of("message", "کد احراز هویت برای شما ارسال شد.")));
