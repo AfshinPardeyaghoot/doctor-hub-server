@@ -1,5 +1,6 @@
-package com.project.doctorhub.auth.model;
+package com.project.doctorhub.user.model;
 
+import com.project.doctorhub.auth.model.UserRole;
 import com.project.doctorhub.base.model.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Table(name = "users")
 public class User extends BaseEntity<Long> {
+
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;

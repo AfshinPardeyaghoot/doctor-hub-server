@@ -9,7 +9,7 @@ import com.project.doctorhub.auth.dto.AccessTokenDTO;
 import com.project.doctorhub.auth.dto.AuthenticationTokenDTO;
 import com.project.doctorhub.auth.dto.UserCredentials;
 import com.project.doctorhub.auth.model.RefreshToken;
-import com.project.doctorhub.auth.model.User;
+import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.auth.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

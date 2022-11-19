@@ -2,12 +2,10 @@ package com.project.doctorhub.auth.controller;
 
 import com.project.doctorhub.auth.dto.AuthenticationTokenDTO;
 import com.project.doctorhub.auth.dto.SendVerificationCodeDTO;
-import com.project.doctorhub.auth.service.UserService;
+import com.project.doctorhub.user.service.UserService;
 import com.project.doctorhub.base.dto.HttpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,11 +33,5 @@ public class AuthenticationController {
     ) {
         AuthenticationTokenDTO authenticationTokenDTO = userService.refreshTokens(uuid);
         return ResponseEntity.ok(new HttpResponse<>(authenticationTokenDTO));
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<?> testAuthentication() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok("Hello " + authentication.getPrincipal());
     }
 }

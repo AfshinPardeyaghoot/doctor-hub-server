@@ -1,6 +1,6 @@
 package com.project.doctorhub.sms.service;
 
-import com.project.doctorhub.auth.model.User;
+import com.project.doctorhub.user.model.User;
 
 public interface SmsService {
 

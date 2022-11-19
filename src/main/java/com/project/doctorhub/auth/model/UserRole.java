@@ -1,6 +1,7 @@
 package com.project.doctorhub.auth.model;
 
 import com.project.doctorhub.base.model.BaseEntity;
+import com.project.doctorhub.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

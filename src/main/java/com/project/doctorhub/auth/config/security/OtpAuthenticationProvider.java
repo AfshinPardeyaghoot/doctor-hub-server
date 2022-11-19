@@ -1,7 +1,7 @@
 package com.project.doctorhub.auth.config.security;
 
-import com.project.doctorhub.auth.model.User;
-import com.project.doctorhub.auth.service.UserService;
+import com.project.doctorhub.user.model.User;
+import com.project.doctorhub.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;

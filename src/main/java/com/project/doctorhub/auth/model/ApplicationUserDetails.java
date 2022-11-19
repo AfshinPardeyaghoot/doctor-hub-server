@@ -1,5 +1,6 @@
 package com.project.doctorhub.auth.model;
 
+import com.project.doctorhub.user.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -7,9 +8,9 @@ import java.util.Collection;
 
 public class ApplicationUserDetails implements UserDetails {
 
-    private final com.project.doctorhub.auth.model.User applicationUser;
+    private final User applicationUser;
 
-    public ApplicationUserDetails(com.project.doctorhub.auth.model.User applicationUser) {
+    public ApplicationUserDetails(User applicationUser) {
         this.applicationUser = applicationUser;
     }
 
