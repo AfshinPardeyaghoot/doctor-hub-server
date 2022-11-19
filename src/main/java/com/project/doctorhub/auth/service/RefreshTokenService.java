@@ -1,7 +1,7 @@
 package com.project.doctorhub.auth.service;
 
 import com.project.doctorhub.auth.model.RefreshToken;
-import com.project.doctorhub.auth.model.User;
+import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.auth.repository.RefreshTokenRepository;
 import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.service.AbstractCrudService;

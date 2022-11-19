@@ -1,15 +1,18 @@
-package com.project.doctorhub.auth.service;
+package com.project.doctorhub.user.service;
 
 import com.project.doctorhub.auth.dto.AuthenticationTokenDTO;
 import com.project.doctorhub.auth.model.Role;
-import com.project.doctorhub.auth.model.User;
 import com.project.doctorhub.auth.model.UserRole;
-import com.project.doctorhub.auth.repository.UserRepository;
+import com.project.doctorhub.auth.service.RefreshTokenService;
+import com.project.doctorhub.auth.service.RoleService;
+import com.project.doctorhub.auth.service.UserRoleService;
 import com.project.doctorhub.auth.util.JWTUtil;
 import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.model.ApplicationProperties;
 import com.project.doctorhub.base.service.AbstractCrudService;
 import com.project.doctorhub.sms.service.SmsService;
+import com.project.doctorhub.user.model.User;
+import com.project.doctorhub.user.repository.UserRepository;
 import com.project.doctorhub.util.StringUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -53,6 +56,11 @@ public class UserService
 
     public User findByPhone(String phone) {
         return userRepository.findByPhone(phone)
+                .orElseThrow(() -> new NotFoundException("کاربر یافت نشد!"));
+    }
+
+    public User findByUUID(String uuid) {
+        return userRepository.findByUUID(uuid)
                 .orElseThrow(() -> new NotFoundException("کاربر یافت نشد!"));
     }
 

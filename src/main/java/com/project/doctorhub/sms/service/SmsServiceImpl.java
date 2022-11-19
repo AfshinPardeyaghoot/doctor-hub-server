@@ -1,6 +1,6 @@
 package com.project.doctorhub.sms.service;
 
-import com.project.doctorhub.auth.model.User;
+import com.project.doctorhub.user.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

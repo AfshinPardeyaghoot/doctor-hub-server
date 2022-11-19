@@ -1,7 +1,7 @@
-package com.project.doctorhub.auth.repository;
+package com.project.doctorhub.user.repository;
 
-import com.project.doctorhub.auth.model.User;
 import com.project.doctorhub.base.repository.AbstractRepository;
+import com.project.doctorhub.user.model.User;
 
 import java.util.Optional;
 
@@ -9,4 +9,6 @@ public interface UserRepository
         extends AbstractRepository<User, Long> {
 
     Optional<User> findByPhone(String phone);
+
+    Optional<User> findByUUID(String uuid);
 }
