@@ -23,8 +23,11 @@ import java.util.stream.Collectors;
 @Table(name = "users")
 public class User extends BaseEntity<Long> {
 
-    @Column(name = "username")
-    private String username;
+
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
 
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;
@@ -34,9 +37,11 @@ public class User extends BaseEntity<Long> {
 
     @Column(name = "authentication_code_exp_at")
     private Instant authenticationCodeExpAt;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
+    public String getUsername() {
+        return String.format("%s %s", firstName, lastName);
+    }
 
     public Set<GrantedAuthority> getRoles() {
         return userRoles.stream()
