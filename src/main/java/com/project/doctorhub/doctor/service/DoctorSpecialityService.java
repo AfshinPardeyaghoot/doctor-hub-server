@@ -40,7 +40,6 @@ public class DoctorSpecialityService
         }
 
         doctor.getDoctorSpecialities().add(doctorSpeciality);
-
     }
 
     private DoctorSpeciality create(Doctor doctor, Speciality speciality) {

@@ -3,6 +3,7 @@ package com.project.doctorhub.speciality.service;
 import com.project.doctorhub.base.exception.HttpException;
 import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.service.AbstractCrudService;
+import com.project.doctorhub.speciality.dto.SpecialityUpdateDTO;
 import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.storageFile.model.StorageFileType;
 import com.project.doctorhub.storageFile.service.StorageFileService;
@@ -50,10 +51,27 @@ public class SpecialityService
 
     private Speciality create(SpecialityCreateDTO specialityCreateDTO, StorageFile specialityImage) {
         Speciality speciality = new Speciality();
-        speciality.setImage(specialityImage);;
+        speciality.setImage(specialityImage);
         speciality.setName(specialityCreateDTO.getName().toLowerCase());
         speciality.setTitle(specialityCreateDTO.getTitle());
         speciality.setIsDeleted(false);
+        return save(speciality);
+    }
+
+    public Speciality update(String uuid, SpecialityUpdateDTO specialityUpdateDTO) {
+        Speciality speciality = findByUUIDNotDeleted(uuid);
+
+        if (specialityUpdateDTO.getTitle() != null)
+            speciality.setTitle(specialityUpdateDTO.getTitle());
+
+        if (specialityUpdateDTO.getImage() != null) {
+            StorageFile specialityImage = storageFileService.create(
+                    specialityUpdateDTO.getImage(),
+                    StorageFileType.SPECIALITY_IMAGE
+            );
+            speciality.setImage(specialityImage);
+        }
+
         return save(speciality);
     }
 }
