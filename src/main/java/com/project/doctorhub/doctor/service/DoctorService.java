@@ -6,9 +6,9 @@ import com.project.doctorhub.base.service.AbstractCrudService;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.dto.DoctorCreateDTO;
 import com.project.doctorhub.doctor.repository.DoctorRepository;
-import com.project.doctorhub.image.model.StorageFile;
-import com.project.doctorhub.image.model.StorageFileType;
-import com.project.doctorhub.image.service.StorageFileService;
+import com.project.doctorhub.storageFile.model.StorageFile;
+import com.project.doctorhub.storageFile.model.StorageFileType;
+import com.project.doctorhub.storageFile.service.StorageFileService;
 import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -65,7 +65,7 @@ public class DoctorService
                 profileImage
         );
 
-        doctorSpecialityService.addDoctorSpeciality(doctor, doctorCreateDTO.getSpeciality());
+        doctorSpecialityService.addDoctorSpeciality(doctor, doctorCreateDTO.getSpecialityId());
 
         return doctor;
     }

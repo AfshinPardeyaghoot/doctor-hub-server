@@ -1,4 +1,4 @@
-package com.project.doctorhub.image.model;
+package com.project.doctorhub.storageFile.model;
 
 import com.project.doctorhub.base.model.BaseEntity;
 import lombok.AllArgsConstructor;

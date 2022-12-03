@@ -1,11 +1,11 @@
-package com.project.doctorhub.image.service;
+package com.project.doctorhub.storageFile.service;
 
 import com.project.doctorhub.base.service.AbstractCrudService;
-import com.project.doctorhub.image.model.StorageFile;
-import com.project.doctorhub.image.model.StorageFileType;
-import com.project.doctorhub.image.reporitory.StorageFileRepository;
+import com.project.doctorhub.storageFile.model.StorageFile;
+import com.project.doctorhub.storageFile.model.StorageFileType;
+import com.project.doctorhub.storageFile.reporitory.StorageFileRepository;
 import com.project.doctorhub.util.StorageFileUtil;
-import org.hibernate.type.ImageType;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

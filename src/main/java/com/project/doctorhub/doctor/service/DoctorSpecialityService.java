@@ -29,8 +29,8 @@ public class DoctorSpecialityService
 
 
     @Transactional
-    public void addDoctorSpeciality(Doctor doctor, String specialityName) {
-        Speciality speciality = specialityService.findByName(specialityName);
+    public void addDoctorSpeciality(Doctor doctor, String specialityId) {
+        Speciality speciality = specialityService.findByUUIDNotDeleted(specialityId);
         DoctorSpeciality doctorSpeciality = doctorSpecialityRepository.findByDoctorAndSpeciality(doctor, speciality)
                 .orElseGet(()-> create(doctor, speciality));
 

@@ -8,10 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationBaseProperties {
     private final String storageBasePath;
+    private final String downloadFileApi;
 
     public ApplicationBaseProperties(
-            @Value("${storage.base.path}") String storageBasePath
+            @Value("${storage.base.path}") String storageBasePath,
+            @Value("${download.file.api.address}") String downloadFileApi
     ) {
         this.storageBasePath = storageBasePath;
+        this.downloadFileApi = downloadFileApi;
     }
 }

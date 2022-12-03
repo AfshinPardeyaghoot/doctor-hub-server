@@ -1,4 +1,4 @@
-package com.project.doctorhub.image.model;
+package com.project.doctorhub.storageFile.model;
 
 public enum StorageFileType {
     PROFILE_IMAGE("/profile_image"), SPECIALITY_IMAGE("/speciality/image");

@@ -1,7 +1,7 @@
 package com.project.doctorhub.speciality.model;
 
 import com.project.doctorhub.base.model.BaseEntity;
-import com.project.doctorhub.image.model.StorageFile;
+import com.project.doctorhub.storageFile.model.StorageFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

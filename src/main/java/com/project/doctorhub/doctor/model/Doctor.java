@@ -1,7 +1,7 @@
 package com.project.doctorhub.doctor.model;
 
 import com.project.doctorhub.base.model.BaseEntity;
-import com.project.doctorhub.image.model.StorageFile;
+import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

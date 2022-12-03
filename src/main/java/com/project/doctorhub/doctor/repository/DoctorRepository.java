@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface DoctorRepository
         extends AbstractRepository<Doctor, Long> {
 
-    @Query("select d from Doctor d inner join User u where u.phone = :phone and d.isDeleted = false")
+    @Query("select d from Doctor d inner join User u on d.user = u where u.phone = :phone and d.isDeleted = false")
     Optional<Doctor> findByPhone(String phone);
 }

@@ -8,8 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -30,6 +28,6 @@ public class DoctorCreateDTO {
     private MultipartFile profileImage;
 
     @NotNull(message = "لطفا تخصص پزشک را انتخاب نمایید")
-    private String speciality;
+    private String specialityId;
 
 }

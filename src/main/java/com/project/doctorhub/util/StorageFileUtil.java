@@ -5,23 +5,20 @@ import com.project.doctorhub.base.exception.InternalServerException;
 import com.project.doctorhub.base.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Random;
 
 @Slf4j
@@ -32,30 +29,22 @@ public class StorageFileUtil {
     private final ApplicationBaseProperties applicationBaseProperties;
 
     public String store(MultipartFile file, String uploadLocation, String name) {
-
         Path uploadPath = Paths.get(applicationBaseProperties.getStorageBasePath() + uploadLocation)
                 .toAbsolutePath()
                 .normalize();
 
         createDirIfNotExist(uploadPath);
 
-        String finalPath = copyFileToFileStorage(file, addRandomNumberToFileName(sanitizeFileName(name)), uploadPath);
-
-        return finalPath.substring(applicationBaseProperties.getStorageBasePath().length());
+        return copyFileToFileStorage(file, addRandomNumberToFileName(sanitizeFileName(name)), uploadPath).substring(applicationBaseProperties.getStorageBasePath().length());
     }
 
-    public Resource getFileResource(String fileUri) {
-        try {
-            Resource resource = new UrlResource(applicationBaseProperties.getStorageBasePath() + fileUri);
-            if (resource.exists())
-                return resource;
-            else throw new NotFoundException(String.format("file with path %s not found", fileUri));
-        } catch (MalformedURLException e) {
-            log.error(String.format("error in loading file with path : %s not found", fileUri) + e.getMessage());
-            throw new InternalServerException("error in loading file");
-        }
+    public Resource loadResource(String filePath) {
+        return getFileResource(String.format("%s%s", applicationBaseProperties.getStorageBasePath(), filePath));
     }
 
+    private Resource getFileResource(String fileUri) {
+        return new FileSystemResource(fileUri);
+    }
 
     private void createDirIfNotExist(Path uploadPath) {
         if (!Files.exists(uploadPath)) {
@@ -77,10 +66,13 @@ public class StorageFileUtil {
     private String copyFileToFileStorage(MultipartFile file, String name, Path uploadPath) {
         try {
 
+            System.out.println("before target file : " + uploadPath);
+
             Path targetLocation = uploadPath.resolve(name);
 
-            Files.write(targetLocation, file.getBytes());
-//            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("target file : " + targetLocation);
+
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             return uploadPath + "/" + name;
 

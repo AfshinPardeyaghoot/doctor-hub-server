@@ -9,6 +9,4 @@ public interface UserRepository
         extends AbstractRepository<User, Long> {
 
     Optional<User> findByPhone(String phone);
-
-    Optional<User> findByUUID(String uuid);
 }

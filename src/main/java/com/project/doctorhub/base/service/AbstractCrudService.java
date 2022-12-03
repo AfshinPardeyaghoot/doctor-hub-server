@@ -86,6 +86,16 @@ public class AbstractCrudService<ENTITY extends BaseEntity<PK>,
         save(object);
     }
 
+    public ENTITY findByUUID(String uuid) {
+        return abstractRepository.findByUUID(uuid)
+                .orElseThrow(() -> new NotFoundException("object not found!"));
+    }
+
+    public ENTITY findByUUIDNotDeleted(String uuid) {
+        return abstractRepository.findByUUIDAndIsDeletedFalse(uuid)
+                .orElseThrow(() -> new NotFoundException("object not found!"));
+    }
+
     @Override
     public void safeDeleteById(PK id) {
         ENTITY object = getById(id);
