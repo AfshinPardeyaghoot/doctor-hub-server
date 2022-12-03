@@ -21,6 +21,13 @@ public class Role extends BaseEntity<Long> {
     @Transient
     public static final String USER_ROLE = "USER";
 
+    @Transient
+    public static final String DOCTOR = "DOCTOR";
+
+    @Transient
+    public static final String ADMIN = "ADMIN";
+
+
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -32,5 +34,8 @@ public class Doctor extends BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "profile_image_storage_file_id")
     private StorageFile profileImage;
+
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    private Set<DoctorSpeciality> doctorSpecialities = new HashSet<>();
 
 }

@@ -30,5 +30,4 @@ public class Speciality
     private StorageFile image;
 
 
-
 }

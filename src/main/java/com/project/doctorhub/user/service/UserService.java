@@ -17,6 +17,7 @@ import com.project.doctorhub.util.StringUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
@@ -88,6 +89,18 @@ public class UserService
     }
 
 
+    @Transactional
+    public User createOrFetch(String phone, String roleName) {
+        User user =  userRepository.findByPhone(phone)
+                .orElseGet(() -> create(phone, roleName));
+
+        if (user.getUserRoles().stream().noneMatch(userRole -> userRole.getRole().getName().equals(roleName))){
+            addUserRole(user, roleName);
+        }
+
+        return user;
+    }
+
     private User createOrFetch(String phone) {
         return userRepository.findByPhone(phone)
                 .orElseGet(() -> create(phone));
@@ -102,8 +115,26 @@ public class UserService
         return user;
     }
 
+    private User create(String phone, String role) {
+        User user = new User();
+        user.setPhone(phone);
+        user.setIsDeleted(false);
+        save(user);
+        addUserRole(user, role);
+        return user;
+    }
+
+    private void addUserRole(User user, String roleName) {
+        Role role = roleService.getByName(roleName);
+        addRoleToUser(user, role);
+    }
+
     private void addUserRole(User user) {
         Role role = roleService.getByName(Role.USER_ROLE);
+        addRoleToUser(user, role);
+    }
+
+    private void addRoleToUser(User user, Role role) {
         UserRole userRole = userRoleService.create(user, role);
         userRole.getUser().getUserRoles().add(userRole);
         user.getUserRoles().add(userRole);

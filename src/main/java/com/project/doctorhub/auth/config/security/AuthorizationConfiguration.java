@@ -32,7 +32,6 @@ public class AuthorizationConfiguration
         }
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         OtpAuthenticationFilter otpAuthenticationFilter = new OtpAuthenticationFilter(jwtUtil, userService, authenticationManager());
@@ -43,6 +42,8 @@ public class AuthorizationConfiguration
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/sendVerificationCode").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/auth/token/refresh/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/doctor**", "/api/v1/speciality**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/doctor**", "/api/v1/speciality**").hasAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
         http.addFilter(otpAuthenticationFilter);
