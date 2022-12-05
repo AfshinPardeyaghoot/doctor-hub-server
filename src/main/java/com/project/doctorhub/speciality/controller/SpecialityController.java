@@ -8,6 +8,9 @@ import com.project.doctorhub.speciality.dto.SpecialityUpdateDTO;
 import com.project.doctorhub.speciality.model.Speciality;
 import com.project.doctorhub.speciality.service.SpecialityService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +32,23 @@ public class SpecialityController {
         SpecialityGetDTO specialityGetDTO = specialityDTOMapper.entityToGetDTO(speciality);
         return ResponseEntity.ok(new HttpResponse<>(specialityGetDTO));
     }
+
     @PutMapping("/{uuid}")
     public ResponseEntity<HttpResponse<SpecialityGetDTO>> updateSpeciality(
-        @PathVariable String uuid,
-        @ModelAttribute SpecialityUpdateDTO specialityUpdateDTO
-    ){
+            @PathVariable String uuid,
+            @ModelAttribute SpecialityUpdateDTO specialityUpdateDTO
+    ) {
         Speciality speciality = specialityService.update(uuid, specialityUpdateDTO);
         SpecialityGetDTO specialityGetDTO = specialityDTOMapper.entityToGetDTO(speciality);
         return ResponseEntity.ok(new HttpResponse<>(specialityGetDTO));
+    }
+
+    @GetMapping
+    public ResponseEntity<HttpResponse<Page<SpecialityGetDTO>>> getAllSpecialities(
+            @PageableDefault Pageable pageable
+    ) {
+        Page<Speciality> specialities = specialityService.findAllNotDeleted(pageable);
+        Page<SpecialityGetDTO> specialityGetDTOS = specialities.map(specialityDTOMapper::entityToGetDTO);
+        return ResponseEntity.ok(new HttpResponse<>(specialityGetDTOS));
     }
 }
