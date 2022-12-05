@@ -1,5 +1,7 @@
 package com.project.doctorhub.storageFile.service;
 
+import com.project.doctorhub.base.exception.HttpException;
+import com.project.doctorhub.base.exception.InternalServerException;
 import com.project.doctorhub.base.service.AbstractCrudService;
 import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.storageFile.model.StorageFileType;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 
@@ -28,14 +32,24 @@ public class StorageFileService
 
     @Transactional
     public StorageFile create(MultipartFile file, StorageFileType type) {
-        String path = storageFileUtil.store(file, type.getPath(), file.getOriginalFilename());
-
+        String path = storageFileUtil.store(file, type);
         StorageFile storageFile = new StorageFile();
         storageFile.setStoragePath(path);
         storageFile.setType(type);
         storageFile.setIsDeleted(false);
         return save(storageFile);
     }
+
+    public StorageFile create(InputStream inputStream, StorageFileType type, String name){
+        String path = storageFileUtil.store(inputStream, type, name);
+        StorageFile storageFile = new StorageFile();
+        storageFile.setStoragePath(path);
+        storageFile.setType(type);
+        storageFile.setIsDeleted(false);
+        return save(storageFile);
+    }
+
+
 
 
 }

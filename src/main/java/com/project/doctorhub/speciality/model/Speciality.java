@@ -25,6 +25,12 @@ public class Speciality
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "full_title")
+    private String fullTitle;
+
+    @Column(name = "description")
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "image_storage_file_id")
     private StorageFile image;

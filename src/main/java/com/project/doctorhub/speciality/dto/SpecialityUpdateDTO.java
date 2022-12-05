@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.Column;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,5 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class SpecialityUpdateDTO {
 
     private String title;
+    private String fullTitle;
+    private String description;
     private MultipartFile image;
 }

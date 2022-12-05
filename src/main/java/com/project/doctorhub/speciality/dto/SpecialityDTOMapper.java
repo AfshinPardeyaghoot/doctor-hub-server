@@ -15,6 +15,8 @@ public class SpecialityDTOMapper {
         SpecialityGetDTO dto = new SpecialityGetDTO();
         dto.setName(entity.getName());
         dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setFullTitle(entity.getFullTitle());
         dto.setImageDownloadUrl(storageFileDTOMapper.getStorageFileDownloadUrl(entity.getImage()));
         return dto;
     }
