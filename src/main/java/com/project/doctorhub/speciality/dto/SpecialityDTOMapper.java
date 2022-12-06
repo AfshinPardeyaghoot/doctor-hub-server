@@ -13,6 +13,7 @@ public class SpecialityDTOMapper {
 
     public SpecialityGetDTO entityToGetDTO(Speciality entity) {
         SpecialityGetDTO dto = new SpecialityGetDTO();
+        dto.setId(entity.getUUID());
         dto.setName(entity.getName());
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());

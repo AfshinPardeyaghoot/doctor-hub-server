@@ -3,10 +3,18 @@ package com.project.doctorhub.speciality.service;
 import com.project.doctorhub.base.exception.HttpException;
 import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.service.AbstractCrudService;
+import com.project.doctorhub.doctor.model.Doctor;
+import com.project.doctorhub.doctor.service.DoctorService;
+import com.project.doctorhub.speciality.dto.SpecialityCreateDTO;
 import com.project.doctorhub.speciality.dto.SpecialityUpdateDTO;
+import com.project.doctorhub.speciality.model.Speciality;
+import com.project.doctorhub.speciality.repository.SpecialityRepository;
 import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.storageFile.model.StorageFileType;
 import com.project.doctorhub.storageFile.service.StorageFileService;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.project.doctorhub.speciality.dto.SpecialityCreateDTO;
 import com.project.doctorhub.speciality.model.Speciality;
 import com.project.doctorhub.speciality.repository.SpecialityRepository;
@@ -18,19 +26,24 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.InputStream;
+import java.util.List;
 
 @Service
 public class SpecialityService
         extends AbstractCrudService<Speciality, Long, SpecialityRepository> {
 
+    private final DoctorService doctorService;
     private final StorageFileService storageFileService;
     private final SpecialityRepository specialityRepository;
 
+
     public SpecialityService(
             SpecialityRepository abstractRepository,
-            StorageFileService storageFileService
+            StorageFileService storageFileService,
+            @Lazy DoctorService doctorService
     ) {
         super(abstractRepository);
+        this.doctorService = doctorService;
         this.specialityRepository = abstractRepository;
         this.storageFileService = storageFileService;
     }
@@ -118,5 +131,10 @@ public class SpecialityService
 
             save(speciality);
         }
+    }
+
+    public Page<Doctor> findAllSpecialityDoctorsByNameLike(String uuid, String doctorName, Pageable pageable) {
+        Speciality speciality = findByUUIDNotDeleted(uuid);
+        return doctorService.findAllBySpecialityAndNameLike(speciality, doctorName, pageable);
     }
 }

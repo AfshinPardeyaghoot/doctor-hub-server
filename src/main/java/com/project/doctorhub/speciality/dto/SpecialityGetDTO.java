@@ -13,6 +13,7 @@ import javax.persistence.Column;
 @AllArgsConstructor
 public class SpecialityGetDTO {
 
+    private String id;
     private String name;
     private String title;
     private String fullTitle;

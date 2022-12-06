@@ -34,7 +34,7 @@ public class DoctorController {
     }
 
     @PutMapping("/{uuid}")
-    public ResponseEntity<?> updateDoctor(
+    public ResponseEntity<HttpResponse<DoctorGetDTO>> updateDoctor(
             @PathVariable String uuid,
             @ModelAttribute DoctorUpdateDTO doctorUpdateDTO
     ) {
@@ -44,14 +44,22 @@ public class DoctorController {
         return ResponseEntity.ok(new HttpResponse<>(doctorGetDTO));
     }
 
-
     @GetMapping
-    public ResponseEntity<?> getDoctors(
+    public ResponseEntity<HttpResponse<Page<DoctorGetDTO>>> getDoctors(
             @RequestParam(required = false) String name,
             @PageableDefault Pageable pageable
     ) {
-        Page<Doctor> doctors = doctorService.findAllByNameLike(name);
+        Page<Doctor> doctors = doctorService.findAllByNameLike(name, pageable);
         return ResponseEntity.ok(new HttpResponse<>(doctors.map(doctorDTOMapper::entityToGetDTO)));
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<HttpResponse<DoctorGetDTO>> getDoctorByUUID(
+            @PathVariable String uuid
+    ){
+        Doctor doctor = doctorService.findByUUIDNotDeleted(uuid);
+        DoctorGetDTO doctorGetDTO = doctorDTOMapper.entityToGetDTO(doctor);
+        return ResponseEntity.ok(new HttpResponse<>(doctorGetDTO));
     }
 
 
