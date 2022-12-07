@@ -2,8 +2,8 @@ package com.project.doctorhub.auth.controller;
 
 import com.project.doctorhub.auth.dto.AuthenticationTokenDTO;
 import com.project.doctorhub.auth.dto.SendVerificationCodeDTO;
-import com.project.doctorhub.user.service.UserService;
 import com.project.doctorhub.base.dto.HttpResponse;
+import com.project.doctorhub.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,13 +1,14 @@
 package com.project.doctorhub.speciality.model;
 
 import com.project.doctorhub.base.model.BaseEntity;
-import com.project.doctorhub.storageFile.model.StorageFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Getter
@@ -24,16 +25,5 @@ public class Speciality
 
     @Column(name = "title", nullable = false)
     private String title;
-
-    @Column(name = "full_title")
-    private String fullTitle;
-
-    @Column(name = "description")
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "image_storage_file_id")
-    private StorageFile image;
-
 
 }

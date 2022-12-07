@@ -1,10 +1,10 @@
 package com.project.doctorhub.auth.service;
 
 import com.project.doctorhub.auth.model.Role;
-import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.auth.model.UserRole;
 import com.project.doctorhub.auth.repository.UserRoleRepository;
 import com.project.doctorhub.base.service.AbstractCrudService;
+import com.project.doctorhub.user.model.User;
 import org.springframework.stereotype.Service;
 
 @Service

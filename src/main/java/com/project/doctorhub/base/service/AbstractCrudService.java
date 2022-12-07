@@ -20,7 +20,7 @@ public class AbstractCrudService<ENTITY extends BaseEntity<PK>,
 
     public AbstractCrudService(REPOSITORY abstractRepository) {
         this.abstractRepository = abstractRepository;
-        if (getClass().getGenericSuperclass() == (ParameterizedType) getClass().getGenericSuperclass()) {
+        if (getClass().getGenericSuperclass() == getClass().getGenericSuperclass()) {
             ParameterizedType genericSuperClass = (ParameterizedType) getClass().getGenericSuperclass();
             if (genericSuperClass != null && genericSuperClass.getActualTypeArguments() != null
                     && genericSuperClass.getActualTypeArguments().length > 0) {

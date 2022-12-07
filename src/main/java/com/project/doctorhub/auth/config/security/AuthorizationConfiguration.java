@@ -2,8 +2,8 @@ package com.project.doctorhub.auth.config.security;
 
 import com.project.doctorhub.auth.config.security.filter.JwtAuthorizationFilter;
 import com.project.doctorhub.auth.config.security.filter.OtpAuthenticationFilter;
-import com.project.doctorhub.user.service.UserService;
 import com.project.doctorhub.auth.util.JWTUtil;
+import com.project.doctorhub.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

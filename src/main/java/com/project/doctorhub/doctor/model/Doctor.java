@@ -1,6 +1,7 @@
 package com.project.doctorhub.doctor.model;
 
 import com.project.doctorhub.base.model.BaseEntity;
+import com.project.doctorhub.speciality.model.Speciality;
 import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.user.model.User;
 import lombok.AllArgsConstructor;
@@ -9,8 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity
@@ -35,7 +34,8 @@ public class Doctor extends BaseEntity<Long> {
     @JoinColumn(name = "profile_image_storage_file_id")
     private StorageFile profileImage;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
-    private Set<DoctorSpeciality> doctorSpecialities = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "speciality_id")
+    private Speciality speciality;
 
 }

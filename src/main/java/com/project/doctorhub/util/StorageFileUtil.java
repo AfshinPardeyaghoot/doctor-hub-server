@@ -2,21 +2,17 @@ package com.project.doctorhub.util;
 
 import com.project.doctorhub.base.config.ApplicationBaseProperties;
 import com.project.doctorhub.base.exception.InternalServerException;
-import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.storageFile.model.StorageFileType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
