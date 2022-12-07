@@ -7,12 +7,15 @@ import com.project.doctorhub.category.dto.CategoryCreateDTO;
 import com.project.doctorhub.category.dto.CategoryUpdateDTO;
 import com.project.doctorhub.category.model.Category;
 import com.project.doctorhub.category.repository.CategoryRepository;
+import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.speciality.model.SpecialityCategory;
 import com.project.doctorhub.speciality.service.SpecialityCategoryService;
 import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.storageFile.model.StorageFileType;
 import com.project.doctorhub.storageFile.service.StorageFileService;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -138,5 +141,9 @@ public class CategoryService
 
             save(speciality);
         }
+    }
+
+    public Page<Doctor> findAllCategoryDoctors(String uuid, Pageable pageable) {
+        return categoryRepository.findAllCategoryDoctors(uuid, pageable);
     }
 }
