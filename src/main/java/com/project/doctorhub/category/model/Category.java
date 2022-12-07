@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "speciality_category")
+@Table(name = "category")
 public class Category extends BaseEntity<Long> {
 
     @Column(name = "name", nullable = false)

@@ -8,6 +8,7 @@ import com.project.doctorhub.doctor.dto.DoctorUpdateDTO;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.repository.DoctorRepository;
 import com.project.doctorhub.speciality.model.Speciality;
+import com.project.doctorhub.speciality.service.SpecialityService;
 import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.storageFile.model.StorageFileType;
 import com.project.doctorhub.storageFile.service.StorageFileService;
@@ -27,21 +28,21 @@ public class DoctorService
 
     private final UserService userService;
     private final DoctorRepository doctorRepository;
+    private final SpecialityService specialityService;
     private final StorageFileService storageFileService;
-    private final DoctorSpecialityService doctorSpecialityService;
 
     public DoctorService(
             DoctorRepository abstractRepository,
             UserService userService,
             StorageFileService storageFileService,
-            DoctorRepository doctorRepository,
-            DoctorSpecialityService doctorSpecialityService
+            SpecialityService specialityService,
+            DoctorRepository doctorRepository
     ) {
         super(abstractRepository);
         this.doctorRepository = doctorRepository;
         this.userService = userService;
+        this.specialityService = specialityService;
         this.storageFileService = storageFileService;
-        this.doctorSpecialityService = doctorSpecialityService;
     }
 
 
@@ -62,25 +63,28 @@ public class DoctorService
                 StorageFileType.PROFILE_IMAGE
         );
 
+        Speciality speciality = specialityService.findByUUIDNotDeleted(doctorCreateDTO.getSpecialityId());
+
         Doctor doctor = create(
                 user,
                 doctorCreateDTO.getDescription(),
                 doctorCreateDTO.getGmcNumber(),
-                profileImage
+                profileImage,
+                speciality
         );
 
-        doctorSpecialityService.addDoctorSpeciality(doctor, doctorCreateDTO.getSpecialityId());
 
         return doctor;
     }
 
-    private Doctor create(User user, String description, String gmcNumber, StorageFile profileImage) {
+    private Doctor create(User user, String description, String gmcNumber, StorageFile profileImage, Speciality speciality) {
         Doctor doctor = new Doctor();
         doctor.setUser(user);
         doctor.setDescription(description);
         doctor.setGmcNumber(gmcNumber);
         doctor.setProfileImage(profileImage);
         doctor.setIsDeleted(false);
+        doctor.setSpeciality(speciality);
         return save(doctor);
     }
 
@@ -102,6 +106,11 @@ public class DoctorService
             doctor.setProfileImage(profileImage);
         }
 
+        if (doctorUpdateDTO.getSpecialityId() != null) {
+            Speciality speciality = specialityService.findByUUIDNotDeleted(doctorUpdateDTO.getSpecialityId());
+            doctor.setSpeciality(speciality);
+        }
+
         return save(doctor);
     }
 
@@ -111,9 +120,8 @@ public class DoctorService
         return doctorRepository.findAllByIsDeleted(false, pageable);
     }
 
-    public Page<Doctor> findAllBySpecialityAndNameLike(Speciality speciality, String doctorName, Pageable pageable) {
-        if (doctorName != null)
-            return doctorRepository.findAllBySpecialityAndNameLike(speciality, doctorName, pageable);
-        return doctorRepository.findAllBySpeciality(speciality, pageable);
+
+    public void seeder() {
+
     }
 }

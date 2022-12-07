@@ -1,6 +1,8 @@
 package com.project.doctorhub.util;
 
 import com.project.doctorhub.category.service.CategoryService;
+import com.project.doctorhub.speciality.service.SpecialityCategoryService;
+import com.project.doctorhub.speciality.service.SpecialityService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -10,9 +12,13 @@ import org.springframework.stereotype.Component;
 public class Seeder implements CommandLineRunner {
 
     private final CategoryService categoryService;
+    private final SpecialityService specialityService;
+    private final SpecialityCategoryService specialityCategoryService;
 
     @Override
     public void run(String... args) throws Exception {
         categoryService.seeder();
+        specialityService.seeder();
+        specialityCategoryService.seeder();
     }
 }

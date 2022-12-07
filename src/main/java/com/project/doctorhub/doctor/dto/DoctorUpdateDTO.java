@@ -15,5 +15,6 @@ public class DoctorUpdateDTO {
     private String description;
     private String gmcNumber;
     private MultipartFile profileImage;
+    private String specialityId;
 
 }

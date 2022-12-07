@@ -130,15 +130,15 @@ public class CategoryService
     private void createIfNotExist(String name, String title, String fullTitle, String description, StorageFile image) {
         if (categoryRepository.findByNameIgnoreCase(name).isEmpty()) {
 
-            Category speciality = new Category();
-            speciality.setName(name);
-            speciality.setTitle(title);
-            speciality.setFullTitle(fullTitle);
-            speciality.setDescription(description);
-            speciality.setImage(image);
-            speciality.setIsDeleted(false);
+            Category category = new Category();
+            category.setName(name);
+            category.setTitle(title);
+            category.setFullTitle(fullTitle);
+            category.setDescription(description);
+            category.setImage(image);
+            category.setIsDeleted(false);
 
-            save(speciality);
+            save(category);
         }
     }
 
