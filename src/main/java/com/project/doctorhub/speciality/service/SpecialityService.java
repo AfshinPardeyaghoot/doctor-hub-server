@@ -47,7 +47,6 @@ public class SpecialityService
         return specialityRepository.findAllByUUIDInAndIsDeletedFalse(uuids);
     }
 
-
     public Speciality update(String uuid, SpecialityUpdateDTO specialityUpdateDTO) {
         Speciality speciality = findByUUIDNotDeleted(uuid);
 
@@ -55,6 +54,65 @@ public class SpecialityService
             speciality.setTitle(specialityUpdateDTO.getTitle());
 
         return save(speciality);
+    }
+
+
+    public void seeder(){
+        create("nutrition_senior", "کارشناس ارشد تغذیه");
+        create("nutrition", "کارشناس تغذیه");
+
+        create("child_expert", "متخصص بیماری های کودکان");
+        create("child_expert_assistant","دستیار تخصصی  بیماری های کودکان");
+        create("child_specialist", "فوق تخصص کودکان");
+
+        create("dentist", "دندانپزشک ");
+        create("gum_surgery_expert", "متخصص جراحی لثه");
+
+        create("ophthalmology_expert", "متخصص چشم پزشکی");
+        create("optometry_expert", "کارشناس بینایی سنجی");
+        create("ophthalmology_expert_assistant", "دستیار تخصصی چشم پزشکی");
+
+        create("general", "پزشک عمومی");
+
+        create("otorhinolaryngology_expert", "متخصص بیماری های گوش،حلق،بینی");
+        create("otorhinolaryngology_expert_assistant", "دستیار تخصصی گوش،حلق،بینی");
+
+        create("cardiovascular_expert", "متخصص بیماری های قلب و عروق");
+        create("cardiovascular_specialist", "فوق تخصص بیماری های قلب و عروق");
+        create("cardiovascular_expert_assistant", "دستیار تخصصی بیماری های قلب و عروق");
+
+        create("general_surgeon_expert", "متخصص جراح عمومی");
+        create("general_surgeon_expert_assistant", "دستیار تخصصی جراح عمومی");
+
+        create("neurology_expert", "متخصص بیماری های مغز و اعصاب");
+        create("neurology_specialist", "فوق تخصص بیماری های مغز و اعصاب");
+        create("neurology_expert_assistant", "دستیار تخصصی جراجی مغز و اعصاب");
+        create("neurology_resident", "رزیدنت مغز و اعصاب");
+
+        create("orthopedist_expert", "متخصص ارتوپدی و جراحی استخوان و مفاصل");
+        create("orthopedist_expert_assistant", "دستیار تخصصی ارتوپدی و جراحی استخوان و مفاصل");
+        create("orthopedist_expert", "متخصص جراح استخوان و مفاصل");
+        create("orthopedist_resident", "رزیدنت ارتوپدی");
+
+        create("plastic_surgery_specialist", "فوق تخصص جراحی پلاستیک، ترمیمی و سوختگی");
+        create("plastic_surgery_expert_assistant", "دستیار فوق تخصص جراحی پلاستیک، ترمیمی و سوختگی");
+        create("plastic_surgery_fellowship", "فلوشیپ جراحی پلاستیک و ترمیمی چشم");
+
+        create("dermatologist_expert_assistant", "دستیار تخصصی بیماری های پوست و مو");
+        create("dermatologist_expert", "متخصص بیماری های پوست و مو");
+
+        create("obstetricians_expert", "متخصص زنان و زایمان");
+        create("obstetricians_expert_assistant", "دستیار تخصصی زنان و زایمان");
+    }
+
+    private void create(String name, String title) {
+        if (specialityRepository.findByNameIgnoreCase(name).isPresent()){
+            Speciality speciality = new Speciality();
+            speciality.setName(name);
+            speciality.setTitle(title);
+            speciality.setIsDeleted(false);
+            save(speciality);
+        }
     }
 
 
