@@ -7,12 +7,14 @@ import com.project.doctorhub.doctor.dto.DoctorCreateDTO;
 import com.project.doctorhub.doctor.dto.DoctorUpdateDTO;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.repository.DoctorRepository;
+import com.project.doctorhub.speciality.model.Speciality;
 import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.storageFile.model.StorageFileType;
 import com.project.doctorhub.storageFile.service.StorageFileService;
 import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.service.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -97,12 +99,21 @@ public class DoctorService
                     doctorUpdateDTO.getProfileImage(),
                     StorageFileType.PROFILE_IMAGE
             );
+            doctor.setProfileImage(profileImage);
         }
 
         return save(doctor);
     }
 
-    public Page<Doctor> findAllByNameLike(String name) {
-        return null;
+    public Page<Doctor> findAllByNameLike(String name, Pageable pageable) {
+        if (name != null)
+            return doctorRepository.findAllByNameLike(name, pageable);
+        return doctorRepository.findAllByIsDeleted(false, pageable);
+    }
+
+    public Page<Doctor> findAllBySpecialityAndNameLike(Speciality speciality, String doctorName, Pageable pageable) {
+        if (doctorName != null)
+            return doctorRepository.findAllBySpecialityAndNameLike(speciality, doctorName, pageable);
+        return doctorRepository.findAllBySpeciality(speciality, pageable);
     }
 }
