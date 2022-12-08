@@ -139,4 +139,15 @@ public class UserService
         userRole.getUser().getUserRoles().add(userRole);
         user.getUserRoles().add(userRole);
     }
+
+    public User createUser(String phone, String firstName, String lastName) {
+        User user = new User();
+        user.setPhone(phone);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        save(user);
+        Role role = roleService.getByName(Role.DOCTOR);
+        addRoleToUser(user, role);
+        return user;
+    }
 }

@@ -106,7 +106,7 @@ public class SpecialityService
     }
 
     private void create(String name, String title) {
-        if (specialityRepository.findByNameIgnoreCase(name).isPresent()){
+        if (specialityRepository.findByNameIgnoreCase(name).isEmpty()){
             Speciality speciality = new Speciality();
             speciality.setName(name);
             speciality.setTitle(title);

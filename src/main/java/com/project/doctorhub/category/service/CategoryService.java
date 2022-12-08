@@ -13,6 +13,7 @@ import com.project.doctorhub.speciality.service.SpecialityCategoryService;
 import com.project.doctorhub.storageFile.model.StorageFile;
 import com.project.doctorhub.storageFile.model.StorageFileType;
 import com.project.doctorhub.storageFile.service.StorageFileService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class CategoryService
     public CategoryService(
             CategoryRepository abstractRepository,
             StorageFileService storageFileService,
-            SpecialityCategoryService specialityCategoryService
+            @Lazy SpecialityCategoryService specialityCategoryService
     ) {
         super(abstractRepository);
         this.categoryRepository = abstractRepository;
