@@ -121,7 +121,7 @@ public class SpecialityCategoryService
     private void createIfNotExist(String categoryName, String specialityName) {
         Category category = categoryService.findByName(categoryName);
         Speciality speciality = specialityService.findByName(specialityName);
-        if (specialityCategoryRepository.findByCategoryAndSpeciality(category, speciality).isPresent()) {
+        if (specialityCategoryRepository.findByCategoryAndSpeciality(category, speciality).isEmpty()) {
             SpecialityCategory specialityCategory = new SpecialityCategory();
             specialityCategory.setCategory(category);
             specialityCategory.setSpeciality(speciality);

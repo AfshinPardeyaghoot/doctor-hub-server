@@ -13,6 +13,7 @@ public class CategoryDTOMapper {
 
     public CategoryGetDTO entityToGetDTO(Category entity) {
         CategoryGetDTO dto = new CategoryGetDTO();
+        dto.setId(entity.getUUID());
         dto.setName(entity.getName());
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());

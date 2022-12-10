@@ -57,6 +57,15 @@ public class CategoryController {
         return ResponseEntity.ok(new HttpResponse<>(specialityGetDTOS));
     }
 
+    @GetMapping("/{uuid}")
+    public ResponseEntity<HttpResponse<CategoryGetDTO>> getCategoryById(
+            @PathVariable String uuid
+    ){
+        Category category = categoryService.findByUUIDNotDeleted(uuid);
+        CategoryGetDTO categoryGetDTO = categoryDTOMapper.entityToGetDTO(category);
+        return ResponseEntity.ok(new HttpResponse<>(categoryGetDTO));
+    }
+
 
     @GetMapping("/{uuid}/doctors")
     public ResponseEntity<HttpResponse<Page<DoctorGetDTO>>> getAllCategoryDoctors(
