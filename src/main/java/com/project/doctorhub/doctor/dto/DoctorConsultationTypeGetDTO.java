@@ -1,4 +1,4 @@
-package com.project.doctorhub.category.dto;
+package com.project.doctorhub.doctor.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryGetDTO {
+public class DoctorConsultationTypeGetDTO {
 
-    private String name;
+    private String id;
     private String title;
-    private String fullTitle;
-    private String description;
-    private String imageDownloadUrl;
+    private String name;
+    private Long price;
 
 }

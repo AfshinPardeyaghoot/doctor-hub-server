@@ -2,9 +2,9 @@ package com.project.doctorhub.doctor.repository;
 
 import com.project.doctorhub.base.repository.AbstractRepository;
 import com.project.doctorhub.doctor.model.Doctor;
-import com.project.doctorhub.speciality.model.Speciality;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
@@ -18,6 +18,7 @@ public interface DoctorRepository
             "and d.isDeleted = false")
     Optional<Doctor> findByPhone(String phone);
 
+    @EntityGraph(value = "doctor_all_joins")
     @Query("select d from Doctor d " +
             "inner join User u on d.user = u " +
             "where ( u.firstName like '%:name%' or u.lastName like '%:name%' ) " +

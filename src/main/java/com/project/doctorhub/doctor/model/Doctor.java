@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -18,6 +20,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "doctor")
+@NamedEntityGraph(
+        name = "doctor_all_joins",
+        attributeNodes = {
+                @NamedAttributeNode("profileImage"),
+                @NamedAttributeNode("speciality"),
+                @NamedAttributeNode(value = "doctorConsultationTypes", subgraph = "consultationType")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "consultationType", attributeNodes = {
+                        @NamedAttributeNode("consultationType")
+                })
+        }
+)
 public class Doctor extends BaseEntity<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,5 +52,8 @@ public class Doctor extends BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "speciality_id")
     private Speciality speciality;
+
+    @OneToMany(mappedBy = "doctor")
+    private Set<DoctorConsultationType> doctorConsultationTypes = new HashSet<>();
 
 }

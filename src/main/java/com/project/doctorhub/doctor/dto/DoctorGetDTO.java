@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,5 +20,6 @@ public class DoctorGetDTO {
     private String gmcNumber;
     private String profileImage;
     private SpecialityGetDTO speciality;
+    private Set<DoctorConsultationTypeGetDTO> consultationTypes;
 
 }
