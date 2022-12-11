@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Service
@@ -127,10 +128,8 @@ public class DoctorService
         return save(doctor);
     }
 
-    public Page<Doctor> findAllByNameLike(String name, Pageable pageable) {
-        if (name != null)
-            return doctorRepository.findAllByNameLike(name, pageable);
-        return doctorRepository.findAllByIsDeleted(false, pageable);
+    public List<Doctor> findAllByNameLike() {
+        return doctorRepository.findAllByIsDeleted(false);
     }
 
 

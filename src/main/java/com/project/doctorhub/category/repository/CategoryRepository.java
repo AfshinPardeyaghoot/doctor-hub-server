@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryRepository extends AbstractRepository<Category, Long> {
@@ -21,5 +22,5 @@ public interface CategoryRepository extends AbstractRepository<Category, Long> {
             "and d.isDeleted = false " +
             "and sc.isDeleted = false " +
             "and c.UUID = :uuid ")
-    Page<Doctor> findAllCategoryDoctors(String uuid, Pageable pageable);
+    List<Doctor> findAllCategoryDoctors(String uuid);
 }

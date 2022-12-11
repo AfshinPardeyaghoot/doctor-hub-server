@@ -12,17 +12,11 @@ import java.util.Optional;
 public interface DoctorRepository
         extends AbstractRepository<Doctor, Long> {
 
+    @EntityGraph(value = "doctor_all_joins")
     @Query("select d from Doctor d " +
             "inner join User u on d.user = u " +
             "where u.phone = :phone " +
             "and d.isDeleted = false")
     Optional<Doctor> findByPhone(String phone);
-
-    @EntityGraph(value = "doctor_all_joins")
-    @Query("select d from Doctor d " +
-            "inner join User u on d.user = u " +
-            "where ( u.firstName like '%:name%' or u.lastName like '%:name%' ) " +
-            "and d.isDeleted = false ")
-    Page<Doctor> findAllByNameLike(String name, Pageable pageable);
 
 }

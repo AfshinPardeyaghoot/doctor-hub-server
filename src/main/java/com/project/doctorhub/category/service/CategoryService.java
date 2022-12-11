@@ -42,7 +42,6 @@ public class CategoryService
         this.specialityCategoryService = specialityCategoryService;
     }
 
-    
 
     public Category findByName(String name) {
         return categoryRepository.findByNameIgnoreCase(name)
@@ -100,7 +99,7 @@ public class CategoryService
             category.setImage(specialityImage);
         }
 
-        if (categoryUpdateDTO.getSpecialityIds() != null){
+        if (categoryUpdateDTO.getSpecialityIds() != null) {
             updateCategorySpecialities(category, categoryUpdateDTO.getSpecialityIds());
         }
 
@@ -143,7 +142,7 @@ public class CategoryService
         }
     }
 
-    public Page<Doctor> findAllCategoryDoctors(String uuid, Pageable pageable) {
-        return categoryRepository.findAllCategoryDoctors(uuid, pageable);
+    public List<Doctor> findAllCategoryDoctors(String uuid) {
+        return categoryRepository.findAllCategoryDoctors(uuid);
     }
 }
