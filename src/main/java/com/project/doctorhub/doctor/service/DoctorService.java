@@ -2,6 +2,7 @@ package com.project.doctorhub.doctor.service;
 
 import com.project.doctorhub.auth.model.Role;
 import com.project.doctorhub.base.exception.HttpException;
+import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.service.AbstractCrudService;
 import com.project.doctorhub.consultation.model.ConsultationType;
 import com.project.doctorhub.consultation.service.ConsultationTypeService;
@@ -18,8 +19,6 @@ import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.service.UserService;
 import com.project.doctorhub.util.RandomUtil;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -138,7 +137,6 @@ public class DoctorService
 
             ConsultationType textConsultation = consultationTypeService.findByNameNotDeleted("text");
             ConsultationType voiceConsultation = consultationTypeService.findByNameNotDeleted("voice");
-
 
 
             Doctor doctor = createDoctor("علی", "باقری", String.format("0912%s", randomUtil.generateRandomNumber(7)), "nutrition_senior", "m1.jpg");
@@ -263,4 +261,8 @@ public class DoctorService
 
     }
 
+    public Doctor findByPhoneNotDeleted(String doctorPhone) {
+        return doctorRepository.findByPhone(doctorPhone)
+                .orElseThrow(() -> new NotFoundException("پزشکی با شماره تلفن وارد شده پیدا نشد!"));
+    }
 }
