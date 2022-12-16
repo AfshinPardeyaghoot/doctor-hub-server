@@ -39,7 +39,7 @@ public class Doctor extends BaseEntity<Long> {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
 
     @Column(name = "gmc_number")
