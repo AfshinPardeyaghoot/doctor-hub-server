@@ -41,6 +41,7 @@ public class DoctorScheduleService
             doctorSchedule = new DoctorSchedule();
             doctorSchedule.setDoctor(doctor);
             doctorSchedule.setDay(doctorScheduleAddDTO.getDay());
+            doctorSchedule.setOrderIndex(doctorScheduleAddDTO.getDay().getOrder());
         }
         doctorSchedule.setIsDeleted(false);
         doctorSchedule.setEndHour(doctorScheduleAddDTO.getEndHour());
@@ -66,7 +67,7 @@ public class DoctorScheduleService
 
     public List<DoctorSchedule> findAllByDoctorNotDeleted(String uuid) {
         Doctor doctor = doctorService.findByUUIDNotDeleted(uuid);
-        return doctorScheduleRepository.findAllByDoctorAndIsDeletedFalse(doctor);
+        return doctorScheduleRepository.findAllByDoctorAndIsDeletedFalseOrderByOrderIndexAsc(doctor);
     }
 
     public DoctorSchedule update(DoctorScheduleAddDTO doctorScheduleAddDTO) {
@@ -74,6 +75,17 @@ public class DoctorScheduleService
         DoctorSchedule doctorSchedule = findByDoctorAndDayNotDeleted(doctor, doctorScheduleAddDTO.getDay());
         doctorSchedule.setStartHour(doctorScheduleAddDTO.getStartHour());
         doctorSchedule.setEndHour(doctorScheduleAddDTO.getEndHour());
+        return save(doctorSchedule);
+    }
+
+    public DoctorSchedule create(Doctor doctor, DayOfWeek day, String startHour, String endHour){
+        DoctorSchedule doctorSchedule = new DoctorSchedule();
+        doctorSchedule.setDay(day);
+        doctorSchedule.setDoctor(doctor);
+        doctorSchedule.setStartHour(startHour);
+        doctorSchedule.setEndHour(endHour);
+        doctorSchedule.setOrderIndex(day.getOrder());
+        doctorSchedule.setIsDeleted(false);
         return save(doctorSchedule);
     }
 }

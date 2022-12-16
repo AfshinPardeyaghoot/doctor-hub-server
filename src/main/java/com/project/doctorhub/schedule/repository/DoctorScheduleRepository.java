@@ -15,7 +15,7 @@ public interface DoctorScheduleRepository extends AbstractRepository<DoctorSched
 
     Optional<DoctorSchedule> findByDoctorAndDayAndIsDeletedFalse(Doctor doctor, DayOfWeek day);
 
-    List<DoctorSchedule> findAllByDoctorAndIsDeletedFalse(Doctor doctor);
+    List<DoctorSchedule> findAllByDoctorAndIsDeletedFalseOrderByOrderIndexAsc(Doctor doctor);
 
 
 }

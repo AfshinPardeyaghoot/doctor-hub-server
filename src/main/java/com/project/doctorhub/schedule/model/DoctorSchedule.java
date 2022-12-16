@@ -27,6 +27,8 @@ public class DoctorSchedule extends BaseEntity<Long> {
     @Column(name = "day")
     @Enumerated(EnumType.STRING)
     private DayOfWeek day;
+    @Column(name = "order_index", nullable = false)
+    private Integer orderIndex;
 
 
 }

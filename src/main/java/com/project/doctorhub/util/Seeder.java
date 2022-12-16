@@ -16,7 +16,6 @@ public class Seeder implements CommandLineRunner {
     private final DoctorService doctorService;
     private final CategoryService categoryService;
     private final SpecialityService specialityService;
-
     private final ConsultationTypeService consultationTypeService;
     private final SpecialityCategoryService specialityCategoryService;
 
