@@ -1,6 +1,5 @@
 package com.project.doctorhub.doctor.dto;
 
-import com.project.doctorhub.consultation.dto.ConsultationTypeDTOMapper;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.speciality.dto.SpecialityDTOMapper;
 import com.project.doctorhub.storageFile.dto.StorageFileDTOMapper;
@@ -15,7 +14,7 @@ public class DoctorDTOMapper {
 
     private final SpecialityDTOMapper specialityDTOMapper;
     private final StorageFileDTOMapper storageFileDTOMapper;
-    private final ConsultationTypeDTOMapper consultationTypeDTOMapper;
+    private final DoctorConsultationTypeDTOMapper doctorConsultationTypeDTOMapper;
 
 
     public DoctorGetDTO entityToGetDTO(Doctor entity) {
@@ -29,9 +28,19 @@ public class DoctorDTOMapper {
         dto.setConsultationTypes(
                 entity.getDoctorConsultationTypes().stream()
                         .filter(doctorConsultationType -> !doctorConsultationType.getIsDeleted())
-                        .map(consultationTypeDTOMapper::entityToGetDTO)
+                        .map(doctorConsultationTypeDTOMapper::entityToGetDTO)
                         .collect(Collectors.toSet())
         );
+        return dto;
+    }
+
+    public DoctorSlimDTO entityToSlimDTO(Doctor entity){
+        DoctorSlimDTO dto = new DoctorSlimDTO();
+        dto.setId(entity.getUUID());
+        dto.setName(entity.getUser().getUsername());
+        dto.setGmcNumber(entity.getGmcNumber());
+        dto.setSpeciality(specialityDTOMapper.entityToGetDTO(entity.getSpeciality()));
+        dto.setProfileImage(storageFileDTOMapper.getStorageFileDownloadUrl(entity.getProfileImage()));
         return dto;
     }
 

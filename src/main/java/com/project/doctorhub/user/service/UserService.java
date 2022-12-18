@@ -15,6 +15,7 @@ import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.repository.UserRepository;
 import com.project.doctorhub.util.StringUtil;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -53,6 +54,11 @@ public class UserService
         this.userRepository = abstractRepository;
         this.refreshTokenService = refreshTokenService;
         this.applicationProperties = applicationProperties;
+    }
+
+    public User findByAuthentication(Authentication authentication){
+        String userUUID = (String) authentication.getPrincipal();
+        return findByUUID(userUUID);
     }
 
     public User findByPhone(String phone) {

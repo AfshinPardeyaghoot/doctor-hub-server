@@ -1,11 +1,11 @@
-package com.project.doctorhub.consultation.dto;
+package com.project.doctorhub.doctor.dto;
 
 import com.project.doctorhub.doctor.dto.DoctorConsultationTypeGetDTO;
 import com.project.doctorhub.doctor.model.DoctorConsultationType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsultationTypeDTOMapper {
+public class DoctorConsultationTypeDTOMapper {
 
     public DoctorConsultationTypeGetDTO entityToGetDTO(DoctorConsultationType entity){
         DoctorConsultationTypeGetDTO dto = new DoctorConsultationTypeGetDTO();
