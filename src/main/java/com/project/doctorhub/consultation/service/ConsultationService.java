@@ -35,6 +35,7 @@ public class ConsultationService
         Consultation consultation = new Consultation();
         consultation.setStatus(ConsultationStatusType.NEW);
         consultation.setUser(user);
+        consultation.setIsDeleted(false);
         consultation.setConsultationType(doctorConsultationType.getConsultationType());
         consultation.setDoctor(doctorConsultationType.getDoctor());
         consultation.setPrice(doctorConsultationType.getPrice());

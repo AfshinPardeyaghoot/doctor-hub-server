@@ -17,7 +17,8 @@ import javax.naming.AuthenticationException;
 
 @RestController
 @ControllerAdvice
-public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomResponseEntityExceptionHandler
+        extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public final ResponseEntity<HttpResponse<?>> handleNotFoundException(NotFoundException ex) {
