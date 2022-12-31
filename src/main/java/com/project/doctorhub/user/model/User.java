@@ -39,7 +39,10 @@ public class User extends BaseEntity<Long> {
     private Instant authenticationCodeExpAt;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
+
     public String getUsername() {
+        if (firstName == null && lastName == null)
+            return null;
         return String.format("%s %s", firstName, lastName);
     }
 

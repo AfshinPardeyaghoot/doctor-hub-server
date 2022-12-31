@@ -3,6 +3,7 @@ package com.project.doctorhub.auth.config.security;
 import com.project.doctorhub.auth.config.security.filter.JwtAuthorizationFilter;
 import com.project.doctorhub.auth.config.security.filter.OtpAuthenticationFilter;
 import com.project.doctorhub.auth.util.JWTUtil;
+import com.project.doctorhub.user.dto.UserDTOMapper;
 import com.project.doctorhub.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ public class AuthorizationConfiguration
 
     private final JWTUtil jwtUtil;
     private final UserService userService;
+    private final UserDTOMapper userDTOMapper;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final AuthenticationEntryPoint authenticationEntryPoint;
 
@@ -34,7 +36,7 @@ public class AuthorizationConfiguration
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        OtpAuthenticationFilter otpAuthenticationFilter = new OtpAuthenticationFilter(jwtUtil, userService, authenticationManager());
+        OtpAuthenticationFilter otpAuthenticationFilter = new OtpAuthenticationFilter(jwtUtil, userService, userDTOMapper, authenticationManager());
         otpAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
         http.csrf().disable();
         http.cors();

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,21 @@ public class ConsultationController {
         Page<Consultation> consultations = consultationService.findAllByUserAndStatusNotDeleted(user, status, pageable);
         Page<ConsultationGetDTO> consultationGetDTOS = consultations.map(consultationDTOMapper::entityToGetDTO);
         return ResponseEntity.ok(new HttpResponse<>(consultationGetDTOS));
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<HttpResponse<ConsultationGetDTO>> getConsultation(
+            @PathVariable String uuid,
+            Authentication authentication
+    ) {
+        User user = userService.findByAuthentication(authentication);
+        Consultation consultation = consultationService.findByUUIDNotDeleted(uuid);
+        if (!(consultation.getUser().equals(user)
+                || consultation.getDoctor().getUser().equals(user))) {
+            throw new AccessDeniedException("شما دسترسی ورود به این صفخه را ندارید!");
+        }
+        ConsultationGetDTO consultationGetDTO = consultationDTOMapper.entityToGetDTO(consultation);
+        return ResponseEntity.ok(new HttpResponse<>(consultationGetDTO));
     }
 
 }

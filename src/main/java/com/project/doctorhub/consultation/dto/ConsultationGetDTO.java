@@ -17,7 +17,7 @@ public class ConsultationGetDTO {
 
     private String id;
     private Long price;
-    private DoctorConsultationTypeGetDTO consultationType;
+    private ConsultationTypeGetDTO consultationType;
     private DoctorSlimDTO doctor;
     private UserInfoGetDTO user;
     private Long createdAt;
