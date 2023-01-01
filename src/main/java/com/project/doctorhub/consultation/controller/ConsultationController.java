@@ -10,7 +10,6 @@ import com.project.doctorhub.consultation.service.ConsultationService;
 import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.service.UserService;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.connector.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

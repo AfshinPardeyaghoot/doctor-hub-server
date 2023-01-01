@@ -1,12 +1,10 @@
 package com.project.doctorhub.doctor.service;
 
 import com.project.doctorhub.base.service.AbstractCrudService;
-import com.project.doctorhub.consultation.model.Consultation;
 import com.project.doctorhub.consultation.model.ConsultationType;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.model.DoctorConsultationType;
 import com.project.doctorhub.doctor.repository.DoctorConsultationTypeRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -2,8 +2,6 @@ package com.project.doctorhub.doctor.repository;
 
 import com.project.doctorhub.base.repository.AbstractRepository;
 import com.project.doctorhub.doctor.model.Doctor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 

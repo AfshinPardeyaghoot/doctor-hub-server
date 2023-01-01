@@ -3,7 +3,6 @@ package com.project.doctorhub.auth.config.security.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.doctorhub.auth.dto.AuthenticationRequestDTO;
 import com.project.doctorhub.auth.dto.AuthenticationTokenDTO;
-import com.project.doctorhub.auth.dto.UserLoginResponseDTO;
 import com.project.doctorhub.auth.util.JWTUtil;
 import com.project.doctorhub.base.dto.HttpResponse;
 import com.project.doctorhub.base.dto.HttpResponseStatus;

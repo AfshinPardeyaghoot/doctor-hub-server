@@ -1,7 +1,5 @@
 package com.project.doctorhub.consultation.dto;
 
-import com.project.doctorhub.consultation.model.ConsultationType;
-import com.project.doctorhub.doctor.dto.DoctorConsultationTypeGetDTO;
 import com.project.doctorhub.doctor.dto.DoctorSlimDTO;
 import com.project.doctorhub.user.dto.UserInfoGetDTO;
 import lombok.AllArgsConstructor;

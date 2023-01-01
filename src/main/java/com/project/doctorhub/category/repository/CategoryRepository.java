@@ -3,8 +3,6 @@ package com.project.doctorhub.category.repository;
 import com.project.doctorhub.base.repository.AbstractRepository;
 import com.project.doctorhub.category.model.Category;
 import com.project.doctorhub.doctor.model.Doctor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;

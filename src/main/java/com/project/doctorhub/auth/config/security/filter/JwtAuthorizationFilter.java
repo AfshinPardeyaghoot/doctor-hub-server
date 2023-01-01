@@ -38,7 +38,9 @@ public class JwtAuthorizationFilter
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        if (request.getServletPath().equals("/api/v1/auth/login") || request.getServletPath().equals("/api/v1/auth/sendVerificationCode")) {
+
+        if (request.getServletPath().equals("/api/v1/auth/login") || request.getServletPath().equals("/api/v1/auth/sendVerificationCode") || request.getServletPath().startsWith("/ws")) {
+            System.out.println("in fucking here");
             filterChain.doFilter(request, response);
 
         } else {

@@ -42,6 +42,7 @@ public class AuthorizationConfiguration
         http.cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.authorizeRequests().antMatchers("/ws/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/sendVerificationCode").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/auth/token/refresh/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/file/download/**").permitAll();

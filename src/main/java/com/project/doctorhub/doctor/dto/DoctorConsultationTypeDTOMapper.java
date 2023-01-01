@@ -1,6 +1,5 @@
 package com.project.doctorhub.doctor.dto;
 
-import com.project.doctorhub.doctor.dto.DoctorConsultationTypeGetDTO;
 import com.project.doctorhub.doctor.model.DoctorConsultationType;
 import org.springframework.stereotype.Component;
 

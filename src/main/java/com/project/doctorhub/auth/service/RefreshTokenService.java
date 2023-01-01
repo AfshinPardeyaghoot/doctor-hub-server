@@ -5,7 +5,6 @@ import com.project.doctorhub.auth.repository.RefreshTokenRepository;
 import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.service.AbstractCrudService;
 import com.project.doctorhub.user.model.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
