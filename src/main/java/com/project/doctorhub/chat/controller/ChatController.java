@@ -24,8 +24,6 @@ public class ChatController {
 
 
         User user = userService.findByAuthentication(authentication);
-        System.out.printf("User %d send message%n", user.getId());
-        System.out.printf("Message content is : %s", chatMessage.getContent());
-        messagingTemplate.convertAndSend("/topic/public/" + chatMessage.getConsultationId(), chatMessage);
+        messagingTemplate.convertAndSend("/consultation/" + chatMessage.getConsultationId(), chatMessage);
     }
 }
