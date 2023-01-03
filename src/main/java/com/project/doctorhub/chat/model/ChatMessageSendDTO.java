@@ -11,5 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ChatMessageSendDTO {
     private String consultationId;
+    private String receiverId;
     private String content;
+    private String contentType;
+    private Boolean isOwner;
 }

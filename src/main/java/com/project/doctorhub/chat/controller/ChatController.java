@@ -24,6 +24,7 @@ public class ChatController {
 
 
         User user = userService.findByAuthentication(authentication);
-        messagingTemplate.convertAndSend("/consultation/" + chatMessage.getConsultationId(), chatMessage);
+        chatMessage.setIsOwner(false);
+        messagingTemplate.convertAndSend("/consultation/" + chatMessage.getConsultationId() + "/user/" + chatMessage.getReceiverId() , chatMessage);
     }
 }
