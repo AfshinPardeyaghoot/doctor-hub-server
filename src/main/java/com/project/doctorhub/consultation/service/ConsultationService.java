@@ -1,6 +1,8 @@
 package com.project.doctorhub.consultation.service;
 
 import com.project.doctorhub.base.service.AbstractCrudService;
+import com.project.doctorhub.chat.model.Chat;
+import com.project.doctorhub.chat.service.ChatService;
 import com.project.doctorhub.consultation.dto.ConsultationCreateDTO;
 import com.project.doctorhub.consultation.model.Consultation;
 import com.project.doctorhub.consultation.model.ConsultationStatusType;
@@ -17,14 +19,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class ConsultationService
         extends AbstractCrudService<Consultation, Long, ConsultationRepository> {
 
+    private final ChatService chatService;
     private final ConsultationRepository consultationRepository;
     private final DoctorConsultationTypeService doctorConsultationTypeService;
 
     public ConsultationService(
+            ChatService chatService,
             ConsultationRepository abstractRepository,
             DoctorConsultationTypeService doctorConsultationTypeService
     ) {
         super(abstractRepository);
+        this.chatService = chatService;
         this.consultationRepository = abstractRepository;
         this.doctorConsultationTypeService = doctorConsultationTypeService;
     }
@@ -39,7 +44,10 @@ public class ConsultationService
         consultation.setConsultationType(doctorConsultationType.getConsultationType());
         consultation.setDoctor(doctorConsultationType.getDoctor());
         consultation.setPrice(doctorConsultationType.getPrice());
-        return save(consultation);
+        consultation = save(consultation);
+        Chat chat = chatService.create(consultation);
+        consultation.setChat(chat);
+        return consultation;
     }
 
     public Page<Consultation> findAllByUserAndStatusNotDeleted(User user, ConsultationStatusType status, Pageable pageable) {

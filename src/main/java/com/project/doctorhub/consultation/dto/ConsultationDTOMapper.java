@@ -1,5 +1,6 @@
 package com.project.doctorhub.consultation.dto;
 
+import com.project.doctorhub.chat.dto.ChatDTOMapper;
 import com.project.doctorhub.consultation.model.Consultation;
 import com.project.doctorhub.consultation.model.ConsultationType;
 import com.project.doctorhub.doctor.dto.DoctorDTOMapper;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class ConsultationDTOMapper {
 
     private final UserDTOMapper userDTOMapper;
+    private final ChatDTOMapper chatDTOMapper;
     private final DoctorDTOMapper doctorDTOMapper;
 
 
@@ -22,6 +24,8 @@ public class ConsultationDTOMapper {
         dto.setConsultationType(entityToGetDTO(entity.getConsultationType()));
         dto.setDoctor(doctorDTOMapper.entityToSlimDTO(entity.getDoctor()));
         dto.setUser(userDTOMapper.entityToInfoDTO(entity.getUser()));
+        if (entity.getChat() != null)
+            dto.setChat(chatDTOMapper.entityToGetDTO(entity.getChat()));
         dto.setCreatedAt(entity.getCreatedAt().toEpochMilli());
         return dto;
     }

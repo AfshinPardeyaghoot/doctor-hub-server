@@ -1,30 +1,61 @@
 package com.project.doctorhub.chat.controller;
 
-import com.project.doctorhub.chat.model.ChatMessageSendDTO;
+import com.project.doctorhub.base.dto.HttpResponse;
+import com.project.doctorhub.chat.dto.ChatMessageDTOMapper;
+import com.project.doctorhub.chat.dto.ChatMessageGetDTO;
+import com.project.doctorhub.chat.dto.ChatMessageSendDTO;
+import com.project.doctorhub.chat.model.Chat;
+import com.project.doctorhub.chat.model.ChatMessage;
+import com.project.doctorhub.chat.service.ChatMessageService;
+import com.project.doctorhub.chat.service.ChatService;
 import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Controller
 @AllArgsConstructor
 public class ChatController {
 
+    private final ChatService chatService;
     private final UserService userService;
+    private final ChatMessageService chatMessageService;
+    private final ChatMessageDTOMapper chatMessageDTOMapper;
     private final SimpMessageSendingOperations messagingTemplate;
 
     @MessageMapping("/chat.sendMessage")
-    public void sendMessage(@Payload ChatMessageSendDTO chatMessage,
-                            Authentication authentication) {
-
-
+    public void sendMessage(
+            @Payload ChatMessageSendDTO chatMessageSendDTO,
+            Authentication authentication
+    ) {
         User user = userService.findByAuthentication(authentication);
-        chatMessage.setIsOwner(false);
-        messagingTemplate.convertAndSend("/consultation/" + chatMessage.getConsultationId() + "/user/" + chatMessage.getReceiverId() , chatMessage);
+        Chat chat = chatService.findByUUIDNotDeleted(chatMessageSendDTO.getChatId());
+        ChatMessage chatMessage = chatMessageService.create(user, chat, chatMessageSendDTO);
+        ChatMessageGetDTO chatMessageGetDTO = chatMessageDTOMapper.entityToGetDTO(user.getUUID(), chatMessage);
+        String destination = String.format("/chat/%s/user/%s", chatMessage.getChat().getUUID(), chatMessageSendDTO.getReceiverId());
+        messagingTemplate.convertAndSend(destination, chatMessageGetDTO);
+    }
+
+    @GetMapping("/chat/{id}/messages")
+    public ResponseEntity<HttpResponse<Page<ChatMessageGetDTO>>> getChatMessages(
+            Authentication authentication,
+            @PathVariable String chatId,
+            @PageableDefault Pageable pageable
+    ) {
+        Chat chat = chatService.findByUUIDNotDeleted(chatId);
+        Page<ChatMessage> chatMessages = chatMessageService.findAllByChatNotDeleted(chat, pageable);
+
+        return null;
     }
 }

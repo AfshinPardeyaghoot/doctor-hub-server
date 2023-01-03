@@ -1,6 +1,7 @@
 package com.project.doctorhub.consultation.model;
 
 import com.project.doctorhub.base.model.BaseEntity;
+import com.project.doctorhub.chat.model.Chat;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.user.model.User;
 import lombok.AllArgsConstructor;
@@ -30,9 +31,12 @@ public class Consultation extends BaseEntity<Long> {
     @Column(name = "price")
     private Long price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "consultation_type_id")
     private ConsultationType consultationType;
+
+    @OneToOne(mappedBy = "consultation", fetch = FetchType.LAZY)
+    private Chat chat;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

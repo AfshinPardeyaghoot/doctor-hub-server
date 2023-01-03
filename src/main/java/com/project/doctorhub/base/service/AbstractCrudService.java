@@ -6,6 +6,7 @@ import com.project.doctorhub.base.model.BaseEntity;
 import com.project.doctorhub.base.repository.AbstractRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -32,21 +33,25 @@ public class AbstractCrudService<ENTITY extends BaseEntity<PK>,
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ENTITY> findAll(Pageable pageable) {
         return abstractRepository.findAll(pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ENTITY> findAll() {
         return abstractRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ENTITY> findAllNotDeleted(Pageable pageable) {
         return abstractRepository.findAllByIsDeleted(false, pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ENTITY> findAllNotDeleted() {
         return abstractRepository.findAllByIsDeleted(false);
     }
@@ -58,11 +63,14 @@ public class AbstractCrudService<ENTITY extends BaseEntity<PK>,
 
 
     @Override
+    @Transactional(readOnly = true)
     public Long countAll() {
         return abstractRepository.count();
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public ENTITY getById(PK id) {
         return abstractRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("object %d from %s not found", id, entityClass))
@@ -86,11 +94,13 @@ public class AbstractCrudService<ENTITY extends BaseEntity<PK>,
         save(object);
     }
 
+    @Transactional(readOnly = true)
     public ENTITY findByUUID(String uuid) {
         return abstractRepository.findByUUID(uuid)
                 .orElseThrow(() -> new NotFoundException("object not found!"));
     }
 
+    @Transactional(readOnly = true)
     public ENTITY findByUUIDNotDeleted(String uuid) {
         return abstractRepository.findByUUIDAndIsDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("object not found!"));

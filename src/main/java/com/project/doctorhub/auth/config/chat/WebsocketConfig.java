@@ -48,7 +48,7 @@ public class WebsocketConfig
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/consultation");
+        registry.enableSimpleBroker("/chat");
     }
 
     @Override
