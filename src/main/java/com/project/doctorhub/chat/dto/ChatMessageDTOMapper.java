@@ -18,4 +18,13 @@ public class ChatMessageDTOMapper {
         else dto.setIsOwner(false);
         return dto;
     }
+
+    public ChatMessageGetDTO entityToGetDTO(Boolean isOwner, ChatMessage entity) {
+        ChatMessageGetDTO dto = new ChatMessageGetDTO();
+        dto.setContent(entity.getContent());
+        dto.setContentType(entity.getContentType());
+        dto.setSendAt(entity.getCreatedAt().toEpochMilli());
+        dto.setIsOwner(isOwner);
+        return dto;
+    }
 }

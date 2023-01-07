@@ -22,10 +22,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
-@Controller
+@RestController
 @AllArgsConstructor
+@RequestMapping("/api/v1/chat")
 public class ChatController {
 
     private final ChatService chatService;
@@ -42,20 +45,22 @@ public class ChatController {
         User user = userService.findByAuthentication(authentication);
         Chat chat = chatService.findByUUIDNotDeleted(chatMessageSendDTO.getChatId());
         ChatMessage chatMessage = chatMessageService.create(user, chat, chatMessageSendDTO);
-        ChatMessageGetDTO chatMessageGetDTO = chatMessageDTOMapper.entityToGetDTO(user.getUUID(), chatMessage);
+        ChatMessageGetDTO chatMessageGetDTO = chatMessageDTOMapper.entityToGetDTO(false, chatMessage);
         String destination = String.format("/chat/%s/user/%s", chatMessage.getChat().getUUID(), chatMessageSendDTO.getReceiverId());
         messagingTemplate.convertAndSend(destination, chatMessageGetDTO);
     }
 
-    @GetMapping("/chat/{id}/messages")
+    @GetMapping("/{chatId}/messages")
     public ResponseEntity<HttpResponse<Page<ChatMessageGetDTO>>> getChatMessages(
             Authentication authentication,
             @PathVariable String chatId,
             @PageableDefault Pageable pageable
     ) {
+        User user = userService.findByAuthentication(authentication);
         Chat chat = chatService.findByUUIDNotDeleted(chatId);
         Page<ChatMessage> chatMessages = chatMessageService.findAllByChatNotDeleted(chat, pageable);
-
-        return null;
+        Page<ChatMessageGetDTO> chatMessagesDTO = chatMessages.map(chatMessage -> chatMessageDTOMapper.entityToGetDTO(user.getUUID(), chatMessage));
+        return ResponseEntity.ok(new HttpResponse<>(chatMessagesDTO));
     }
+
 }
