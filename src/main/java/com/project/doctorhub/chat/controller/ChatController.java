@@ -2,6 +2,7 @@ package com.project.doctorhub.chat.controller;
 
 import com.project.doctorhub.base.dto.HttpResponse;
 import com.project.doctorhub.chat.dto.ChatMessageDTOMapper;
+import com.project.doctorhub.chat.dto.ChatMessageFilePostDTO;
 import com.project.doctorhub.chat.dto.ChatMessageGetDTO;
 import com.project.doctorhub.chat.dto.ChatMessageSendDTO;
 import com.project.doctorhub.chat.model.Chat;
@@ -20,10 +21,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -61,6 +59,20 @@ public class ChatController {
         Page<ChatMessage> chatMessages = chatMessageService.findAllByChatNotDeleted(chat, pageable);
         Page<ChatMessageGetDTO> chatMessagesDTO = chatMessages.map(chatMessage -> chatMessageDTOMapper.entityToGetDTO(user.getUUID(), chatMessage));
         return ResponseEntity.ok(new HttpResponse<>(chatMessagesDTO));
+    }
+
+    @PostMapping("/message/file")
+    public ResponseEntity<HttpResponse<ChatMessageGetDTO>> uploadChatMessage(
+            Authentication authentication,
+            @ModelAttribute ChatMessageFilePostDTO chatMessageFilePostDTO
+    ) {
+        System.out.println(chatMessageFilePostDTO.toString());
+        User user = userService.findByAuthentication(authentication);
+        Chat chat = chatService.findByUUIDNotDeleted(chatMessageFilePostDTO.getChatId());
+        ChatMessage chatMessage = chatMessageService.create(user, chat, chatMessageFilePostDTO);
+        String destination = String.format("/chat/%s/user/%s", chatMessage.getChat().getUUID(), chatMessageFilePostDTO.getReceiverId());
+        messagingTemplate.convertAndSend(destination, chatMessageDTOMapper.entityToGetDTO(false, chatMessage));
+        return ResponseEntity.ok(new HttpResponse<>(chatMessageDTOMapper.entityToGetDTO(true, chatMessage)));
     }
 
 }

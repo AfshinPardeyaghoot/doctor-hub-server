@@ -27,5 +27,7 @@ public class ChatMessage extends BaseEntity<Long> {
     @Column(name = "content_type")
     @Enumerated(EnumType.STRING)
     private ChatMessageContentType contentType;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "chatMessage")
+    private ChatMessageFile chatMessageFile;
 
 }

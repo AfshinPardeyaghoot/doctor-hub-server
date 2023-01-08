@@ -13,6 +13,7 @@ import lombok.Setter;
 public class ChatMessageGetDTO {
 
     private Boolean isOwner;
+    private String fileName;
     private String content;
     private ChatMessageContentType contentType;
     private Long sendAt;
