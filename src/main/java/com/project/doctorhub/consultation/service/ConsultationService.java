@@ -38,7 +38,7 @@ public class ConsultationService
     public synchronized Consultation create(User user, ConsultationCreateDTO consultationCreateDTO) {
         DoctorConsultationType doctorConsultationType = doctorConsultationTypeService.findByUUIDNotDeleted(consultationCreateDTO.getDoctorConsultationId());
         Consultation consultation = new Consultation();
-        consultation.setStatus(ConsultationStatusType.NEW);
+        consultation.setStatus(ConsultationStatusType.IN_PROCESS);
         consultation.setUser(user);
         consultation.setIsDeleted(false);
         consultation.setConsultationType(doctorConsultationType.getConsultationType());

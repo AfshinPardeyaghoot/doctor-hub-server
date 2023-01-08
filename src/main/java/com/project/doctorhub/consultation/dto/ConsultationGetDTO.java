@@ -1,6 +1,7 @@
 package com.project.doctorhub.consultation.dto;
 
 import com.project.doctorhub.chat.dto.ChatGetDTO;
+import com.project.doctorhub.consultation.model.ConsultationStatusType;
 import com.project.doctorhub.doctor.dto.DoctorSlimDTO;
 import com.project.doctorhub.user.dto.UserInfoGetDTO;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class ConsultationGetDTO {
     private DoctorSlimDTO doctor;
     private ChatGetDTO chat;
     private UserInfoGetDTO user;
+    private String status;
     private Long createdAt;
 
 }
