@@ -66,7 +66,6 @@ public class ChatController {
             Authentication authentication,
             @ModelAttribute ChatMessageFilePostDTO chatMessageFilePostDTO
     ) {
-        System.out.println(chatMessageFilePostDTO.toString());
         User user = userService.findByAuthentication(authentication);
         Chat chat = chatService.findByUUIDNotDeleted(chatMessageFilePostDTO.getChatId());
         ChatMessage chatMessage = chatMessageService.create(user, chat, chatMessageFilePostDTO);
