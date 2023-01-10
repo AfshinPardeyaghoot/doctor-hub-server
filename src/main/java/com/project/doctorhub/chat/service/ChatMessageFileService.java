@@ -29,7 +29,7 @@ public class ChatMessageFileService
         ChatMessageFile chatMessageFile = new ChatMessageFile();
         chatMessageFile.setChatMessage(chatMessage);
         chatMessageFile.setFile(file);
-        chatMessageFile.setName(chatMessageFilePostDTO.getFile().getName());
+        chatMessageFile.setName(chatMessageFilePostDTO.getFile().getOriginalFilename());
         chatMessageFile.setIsDeleted(false);
         return save(chatMessageFile);
     }
