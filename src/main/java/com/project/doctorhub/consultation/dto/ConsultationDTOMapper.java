@@ -21,6 +21,7 @@ public class ConsultationDTOMapper {
         ConsultationGetDTO dto = new ConsultationGetDTO();
         dto.setId(entity.getUUID());
         dto.setPrice(entity.getPrice());
+        dto.setStatusType(entity.getStatus());
         dto.setStatus(entity.getStatus().getPersian());
         dto.setConsultationType(entityToGetDTO(entity.getConsultationType()));
         dto.setDoctor(doctorDTOMapper.entityToSlimDTO(entity.getDoctor()));

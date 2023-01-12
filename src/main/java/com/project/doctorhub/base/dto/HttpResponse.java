@@ -21,4 +21,8 @@ public class HttpResponse<T> {
         this.data = data;
         this.status = new HttpResponseStatus(HttpStatus.OK.name(), HttpStatus.OK.value());
     }
+
+    public static HttpResponse<Void> EMPTY_SUCCESS() {
+        return new HttpResponse<>(new HttpResponseStatus("Successful", 200));
+    }
 }

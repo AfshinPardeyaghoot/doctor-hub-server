@@ -55,4 +55,9 @@ public class ConsultationService
             return consultationRepository.findByUserAndStatusAndIsDeletedFalse(user, status, pageable);
         return consultationRepository.findByUserAndIsDeletedFalse(user, pageable);
     }
+
+    public void setConsultationIsEnd(Consultation consultation) {
+        consultation.setStatus(ConsultationStatusType.FINISHED);
+        save(consultation);
+    }
 }

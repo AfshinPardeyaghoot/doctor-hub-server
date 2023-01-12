@@ -9,6 +9,8 @@ import com.project.doctorhub.chat.model.Chat;
 import com.project.doctorhub.chat.model.ChatMessage;
 import com.project.doctorhub.chat.service.ChatMessageService;
 import com.project.doctorhub.chat.service.ChatService;
+import com.project.doctorhub.consultation.model.Consultation;
+import com.project.doctorhub.consultation.service.ConsultationService;
 import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +35,7 @@ public class ChatController {
     private final ChatService chatService;
     private final UserService userService;
     private final ChatMessageService chatMessageService;
+    private final ConsultationService consultationService;
     private final ChatMessageDTOMapper chatMessageDTOMapper;
     private final SimpMessageSendingOperations messagingTemplate;
 
@@ -72,6 +76,20 @@ public class ChatController {
         String destination = String.format("/chat/%s/user/%s", chatMessage.getChat().getUUID(), chatMessageFilePostDTO.getReceiverId());
         messagingTemplate.convertAndSend(destination, chatMessageDTOMapper.entityToGetDTO(false, chatMessage));
         return ResponseEntity.ok(new HttpResponse<>(chatMessageDTOMapper.entityToGetDTO(true, chatMessage)));
+    }
+
+    @PutMapping("/{uuid}/end")
+    public ResponseEntity<HttpResponse<Void>> endChat(
+            @PathVariable String uuid,
+            Authentication authentication
+    ) {
+        User user = userService.findByAuthentication(authentication);
+        Consultation consultation = chatService.findByUUIDNotDeleted(uuid).getConsultation();
+        if (!user.equals(consultation.getDoctor().getUser())) {
+            throw new AccessDeniedException("دسترسی غیر مجاز");
+        }
+        consultationService.setConsultationIsEnd(consultation);
+        return ResponseEntity.ok(HttpResponse.EMPTY_SUCCESS());
     }
 
 }

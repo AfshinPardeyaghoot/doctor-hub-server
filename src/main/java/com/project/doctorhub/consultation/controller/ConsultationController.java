@@ -1,5 +1,6 @@
 package com.project.doctorhub.consultation.controller;
 
+import com.project.doctorhub.auth.model.Role;
 import com.project.doctorhub.base.dto.HttpResponse;
 import com.project.doctorhub.consultation.dto.ConsultationCreateDTO;
 import com.project.doctorhub.consultation.dto.ConsultationDTOMapper;
