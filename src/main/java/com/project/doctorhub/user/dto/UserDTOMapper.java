@@ -20,6 +20,15 @@ public class UserDTOMapper {
         return dto;
     }
 
+    public UserInfoFullDTO entityToFullDTO(User user) {
+        UserInfoFullDTO dto = new UserInfoFullDTO();
+        dto.setId(user.getUUID());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setPhone(user.getPhone());
+        return dto;
+    }
+
     public UserLoginResponseDTO entityToUserLoginResponseDTO(
             User user,
             AuthenticationTokenDTO authenticationTokenDTO
