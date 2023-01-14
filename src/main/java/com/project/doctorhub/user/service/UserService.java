@@ -11,6 +11,7 @@ import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.model.ApplicationProperties;
 import com.project.doctorhub.base.service.AbstractCrudService;
 import com.project.doctorhub.sms.service.SmsService;
+import com.project.doctorhub.user.dto.UserUpdateInfoDTO;
 import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.repository.UserRepository;
 import com.project.doctorhub.util.StringUtil;
@@ -56,7 +57,7 @@ public class UserService
         this.applicationProperties = applicationProperties;
     }
 
-    public User findByAuthentication(Authentication authentication){
+    public User findByAuthentication(Authentication authentication) {
         String userUUID = (String) authentication.getPrincipal();
         return findByUUID(userUUID);
     }
@@ -97,10 +98,10 @@ public class UserService
 
     @Transactional
     public User createOrFetch(String phone, String roleName) {
-        User user =  userRepository.findByPhone(phone)
+        User user = userRepository.findByPhone(phone)
                 .orElseGet(() -> create(phone, roleName));
 
-        if (user.getUserRoles().stream().noneMatch(userRole -> userRole.getRole().getName().equals(roleName))){
+        if (user.getUserRoles().stream().noneMatch(userRole -> userRole.getRole().getName().equals(roleName))) {
             addUserRole(user, roleName);
         }
 
@@ -155,5 +156,11 @@ public class UserService
         Role role = roleService.getByName(Role.DOCTOR);
         addRoleToUser(user, role);
         return user;
+    }
+
+    public void update(User user, UserUpdateInfoDTO userUpdateInfoDTO) {
+        user.setFirstName(userUpdateInfoDTO.getFirstName());
+        user.setLastName(userUpdateInfoDTO.getLastName());
+        save(user);
     }
 }
