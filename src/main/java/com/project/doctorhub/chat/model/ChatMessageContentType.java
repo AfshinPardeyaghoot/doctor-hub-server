@@ -1,5 +1,5 @@
 package com.project.doctorhub.chat.model;
 
 public enum ChatMessageContentType {
-    TEXT, IMAGE, FILE
+    TEXT, IMAGE, FILE, END_ALERT
 }

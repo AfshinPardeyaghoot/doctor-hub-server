@@ -49,6 +49,9 @@ public class Doctor extends BaseEntity<Long> {
     @JoinColumn(name = "profile_image_storage_file_id")
     private StorageFile profileImage;
 
+    @Column(name = "rate")
+    private Integer rate;
+
     @ManyToOne
     @JoinColumn(name = "speciality_id")
     private Speciality speciality;

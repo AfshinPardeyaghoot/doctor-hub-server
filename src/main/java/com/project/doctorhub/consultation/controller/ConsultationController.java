@@ -5,8 +5,10 @@ import com.project.doctorhub.base.dto.HttpResponse;
 import com.project.doctorhub.consultation.dto.ConsultationCreateDTO;
 import com.project.doctorhub.consultation.dto.ConsultationDTOMapper;
 import com.project.doctorhub.consultation.dto.ConsultationGetDTO;
+import com.project.doctorhub.consultation.dto.ConsultationRatePostDTO;
 import com.project.doctorhub.consultation.model.Consultation;
 import com.project.doctorhub.consultation.model.ConsultationStatusType;
+import com.project.doctorhub.consultation.service.ConsultationRateService;
 import com.project.doctorhub.consultation.service.ConsultationService;
 import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.service.UserService;
@@ -29,6 +31,7 @@ public class ConsultationController {
     private final UserService userService;
     private final ConsultationService consultationService;
     private final ConsultationDTOMapper consultationDTOMapper;
+    private final ConsultationRateService consultationRateService;
 
     @PostMapping
     public ResponseEntity<HttpResponse<ConsultationGetDTO>> createConsultation(
@@ -66,6 +69,19 @@ public class ConsultationController {
         }
         ConsultationGetDTO consultationGetDTO = consultationDTOMapper.entityToGetDTO(consultation);
         return ResponseEntity.ok(new HttpResponse<>(consultationGetDTO));
+    }
+
+    @PostMapping("/rate")
+    public ResponseEntity<HttpResponse<Void>> addConsultationRate(
+            Authentication authentication,
+            @RequestBody ConsultationRatePostDTO consultationRatePostDTO
+    ) {
+        User user = userService.findByAuthentication(authentication);
+        Consultation consultation = consultationService.findByUUIDNotDeleted(consultationRatePostDTO.getConsultationId());
+        if (user != consultation.getUser())
+            throw new AccessDeniedException("دسترسی غیرمجاز");
+        consultationRateService.create(consultation, consultationRatePostDTO.getRate());
+        return ResponseEntity.ok(HttpResponse.EMPTY_SUCCESS());
     }
 
 }
