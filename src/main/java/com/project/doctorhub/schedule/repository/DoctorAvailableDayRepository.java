@@ -14,6 +14,6 @@ public interface DoctorAvailableDayRepository
     @Query("select max (dad.endHour) from DoctorAvailableDay dad where dad.doctor = :doctor and dad.isDeleted = false ")
     Instant getDoctorMaxEndDate(Doctor doctor);
 
-    @Query("select dad from DoctorAvailableDay dad where dad.doctor = :doctor and dad.startHour < :date and dad.endHour < :date")
+    @Query("select dad from DoctorAvailableDay dad where dad.doctor = :doctor and :date between dad.startHour and dad.endHour")
     Optional<DoctorAvailableDay> findByDoctorAndDateBetween(Doctor doctor, Instant date);
 }
