@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface ConsultationRepository extends AbstractRepository<Consultation, Long> {
 
     @Query("select c from Consultation c " +
@@ -22,4 +24,12 @@ public interface ConsultationRepository extends AbstractRepository<Consultation,
             "where (d.user = :user or c.user =:user) " +
             "and c.isDeleted = false ")
     Page<Consultation> findByUserAndIsDeletedFalse(User user, Pageable pageable);
+
+
+    @Query("select c from Consultation c " +
+            "inner join Doctor d on c.doctor = d " +
+            "where (d.user = :user or c.user =:user) " +
+            "and c.isDeleted = false " +
+            "and c.status = :status ")
+    List<Consultation> findAllByUserAndStatusAndIsDeletedFalse(User user, ConsultationStatusType status);
 }
