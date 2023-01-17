@@ -15,6 +15,8 @@ public class DoctorSlimDTO {
     private String id;
     private String name;
     private String gmcNumber;
+    private Float rate;
+    private Integer consultationCount;
     private String profileImage;
     private SpecialityGetDTO speciality;
 

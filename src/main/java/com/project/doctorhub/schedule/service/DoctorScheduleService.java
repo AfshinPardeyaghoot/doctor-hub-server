@@ -88,4 +88,5 @@ public class DoctorScheduleService
         doctorSchedule.setIsDeleted(false);
         return save(doctorSchedule);
     }
+
 }

@@ -7,6 +7,7 @@ import com.project.doctorhub.doctor.dto.DoctorGetDTO;
 import com.project.doctorhub.doctor.dto.DoctorUpdateDTO;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.service.DoctorService;
+import com.project.doctorhub.schedule.service.DoctorAvailableDayService;
 import com.project.doctorhub.util.ListUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ public class DoctorController {
     private final ListUtil listUtil;
     private final DoctorService doctorService;
     private final DoctorDTOMapper doctorDTOMapper;
+    private final DoctorAvailableDayService doctorAvailableDayService;
 
     @PostMapping
     public ResponseEntity<HttpResponse<DoctorGetDTO>> createDoctor(
@@ -61,9 +63,10 @@ public class DoctorController {
     @GetMapping("/{uuid}")
     public ResponseEntity<HttpResponse<DoctorGetDTO>> getDoctorByUUID(
             @PathVariable String uuid
-    ){
+    ) {
         Doctor doctor = doctorService.findByUUIDNotDeleted(uuid);
-        DoctorGetDTO doctorGetDTO = doctorDTOMapper.entityToGetDTO(doctor);
+        boolean isOnline = doctorAvailableDayService.isDoctorAvailableNow(doctor);
+        DoctorGetDTO doctorGetDTO = doctorDTOMapper.entityToGetDTO(doctor, isOnline);
         return ResponseEntity.ok(new HttpResponse<>(doctorGetDTO));
     }
 

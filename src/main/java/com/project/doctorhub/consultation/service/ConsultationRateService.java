@@ -43,7 +43,7 @@ public class ConsultationRateService
         for (Integer rate : doctorRates) {
             sum += rate;
         }
-        Integer finalRate = sum == 0 ? 0 : sum / doctorRates.size();
+        Float finalRate = sum == 0 ? 0f : sum / doctorRates.size();
         doctor.setRate(finalRate);
         doctorService.save(doctor);
     }

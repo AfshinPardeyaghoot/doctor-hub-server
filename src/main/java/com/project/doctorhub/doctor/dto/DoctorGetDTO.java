@@ -17,8 +17,11 @@ public class DoctorGetDTO {
     private String id;
     private String name;
     private String description;
+    private Float rate;
+    private Integer consultationCount;
     private String gmcNumber;
     private String profileImage;
+    private boolean isOnline;
     private SpecialityGetDTO speciality;
     private Set<DoctorConsultationTypeGetDTO> consultationTypes;
 

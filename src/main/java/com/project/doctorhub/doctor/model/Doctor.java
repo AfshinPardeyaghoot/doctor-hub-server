@@ -50,7 +50,10 @@ public class Doctor extends BaseEntity<Long> {
     private StorageFile profileImage;
 
     @Column(name = "rate")
-    private Integer rate;
+    private Float rate;
+
+    @Column(name = "consultation_count")
+    private Integer consultationCount;
 
     @ManyToOne
     @JoinColumn(name = "speciality_id")
