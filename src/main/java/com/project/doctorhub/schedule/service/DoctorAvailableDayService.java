@@ -44,9 +44,7 @@ public class DoctorAvailableDayService
     private void calculateDoctorAvailableTimes(Doctor doctor, Instant endTime) {
 
         Instant lastGeneratedAppointmentTime = InstantUtil.getInstantWithoutHour(getLastGeneratedAvailableTimeByDoctor(doctor));
-
         List<DoctorSchedule> doctorSchedules = doctorScheduleService.findAllByDoctorNotDeleted(doctor.getUUID());
-
         doctorSchedules.forEach(doctorSchedule -> {
 
             List<Instant> availableDates = InstantUtil.getDateFromDayOfWeek(doctorSchedule.getDay(), endTime, lastGeneratedAppointmentTime);
@@ -64,7 +62,6 @@ public class DoctorAvailableDayService
 
             });
         });
-
     }
 
     private DoctorAvailableDay create(Doctor doctor, Instant start, Instant end) {
