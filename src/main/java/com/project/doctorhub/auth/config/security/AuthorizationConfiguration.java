@@ -47,6 +47,7 @@ public class AuthorizationConfiguration
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/auth/token/refresh/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/file/download/**").permitAll();
         http.authorizeRequests().antMatchers("/api/v1/chat/**").authenticated();
+        http.authorizeRequests().antMatchers("/api/v1/user/admin").hasAuthority("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/v1/chat/**/end").hasAuthority("DOCTOR");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/doctor/**", "/api/v1/schedule/doctor/**", "/api/v1/category/**", "/api/v1/speciality/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/doctor/**", "/api/v1/speciality/**", "/api/v1/schedule/doctor/**", "/api/v1/category/**").hasAuthority("ADMIN");

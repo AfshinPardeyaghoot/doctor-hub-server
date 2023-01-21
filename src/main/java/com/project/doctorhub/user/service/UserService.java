@@ -16,6 +16,8 @@ import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.repository.UserRepository;
 import com.project.doctorhub.util.StringUtil;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -162,5 +164,11 @@ public class UserService
         user.setFirstName(userUpdateInfoDTO.getFirstName());
         user.setLastName(userUpdateInfoDTO.getLastName());
         save(user);
+    }
+
+    public Page<User> findAllByPhoneOrNameNotDeleted(String search, Pageable pageable) {
+        if (search != null)
+            return userRepository.findAllByNameOrPhoneLikeNotDeleted(search, pageable);
+        return findAllNotDeleted(pageable);
     }
 }

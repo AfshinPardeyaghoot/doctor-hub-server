@@ -8,6 +8,9 @@ import com.project.doctorhub.user.dto.UserUpdateInfoDTO;
 import com.project.doctorhub.user.model.User;
 import com.project.doctorhub.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +48,14 @@ public class UserController {
         User user = userService.findByAuthentication(authentication);
         userService.update(user, userUpdateInfoDTO);
         return ResponseEntity.ok(new HttpResponse<>(userDTOMapper.entityToFullDTO(user)));
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<HttpResponse<Page<UserInfoGetDTO>>> getAllUsers(
+            @RequestParam(required = false) String search,
+            @PageableDefault Pageable pageable
+    ) {
+        Page<User> users = userService.findAllByPhoneOrNameNotDeleted(search, pageable);
+        return ResponseEntity.ok(new HttpResponse<>(users.map(userDTOMapper::entityToInfoDTO)));
     }
 }
