@@ -1,5 +1,6 @@
 package com.project.doctorhub.util;
 
+import com.project.doctorhub.auth.service.RoleService;
 import com.project.doctorhub.category.service.CategoryService;
 import com.project.doctorhub.consultation.service.ConsultationTypeService;
 import com.project.doctorhub.doctor.service.DoctorService;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 public class Seeder implements CommandLineRunner {
 
     private final DoctorService doctorService;
+
+    private final RoleService roleService;
     private final CategoryService categoryService;
     private final SpecialityService specialityService;
     private final ConsultationTypeService consultationTypeService;
@@ -21,6 +24,7 @@ public class Seeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        roleService.seeder();
         categoryService.seeder();
         specialityService.seeder();
         consultationTypeService.seeder();

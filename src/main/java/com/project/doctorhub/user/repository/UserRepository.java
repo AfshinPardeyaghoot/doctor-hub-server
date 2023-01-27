@@ -17,6 +17,13 @@ public interface UserRepository
             "where (upper(u.firstName) like %:search% " +
             "or upper(u.lastName) like %:search% " +
             "or u.phone like %:search% )" +
-            "and u.isDeleted = false ")
+            "and u.isDeleted = false " +
+            "and u not in (select d.user from Doctor d where d.isDeleted = false)")
     Page<User> findAllByNameOrPhoneLikeNotDeleted(String search, Pageable pageable);
+
+
+    @Query("select u from User u " +
+            "where u.isDeleted = false " +
+            "and u not in (select d.user from Doctor d where d.isDeleted = false)")
+    Page<User> findAllNotDeletedAndNotDoctor(Pageable pageable);
 }

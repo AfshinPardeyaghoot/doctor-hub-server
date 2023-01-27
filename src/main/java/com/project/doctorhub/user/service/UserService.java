@@ -164,11 +164,18 @@ public class UserService
         user.setFirstName(userUpdateInfoDTO.getFirstName());
         user.setLastName(userUpdateInfoDTO.getLastName());
         save(user);
+        updateRole(user, userUpdateInfoDTO);
+    }
+
+    private void updateRole(User user, UserUpdateInfoDTO userUpdateInfoDTO) {
+        if (userUpdateInfoDTO.getRole() != null){
+            userRoleService.updateUserRole(user, roleService.getByName(userUpdateInfoDTO.getRole()));
+        }
     }
 
     public Page<User> findAllByPhoneOrNameNotDeleted(String search, Pageable pageable) {
         if (search != null)
             return userRepository.findAllByNameOrPhoneLikeNotDeleted(search, pageable);
-        return findAllNotDeleted(pageable);
+        return userRepository.findAllNotDeletedAndNotDoctor(pageable);
     }
 }

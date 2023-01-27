@@ -6,6 +6,7 @@ import com.project.doctorhub.user.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,6 +27,13 @@ public class UserDTOMapper {
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setPhone(user.getPhone());
+        if (user.getRoles().stream().anyMatch(role -> Objects.equals(role.getAuthority(), "ADMIN")))
+            dto.setRole("ADMIN");
+        else if (user.getRoles().stream().anyMatch(role -> Objects.equals(role.getAuthority(), "INVALID")))
+            dto.setRole("INVALID");
+        else if (user.getRoles().stream().anyMatch(role -> Objects.equals(role.getAuthority(), "DOCTOR")))
+            dto.setRole("DOCTOR");
+        else dto.setRole("USER");
         return dto;
     }
 

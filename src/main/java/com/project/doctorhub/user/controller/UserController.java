@@ -50,6 +50,16 @@ public class UserController {
         return ResponseEntity.ok(new HttpResponse<>(userDTOMapper.entityToFullDTO(user)));
     }
 
+    @PutMapping("/{uuid}/info/admin")
+    public ResponseEntity<HttpResponse<UserInfoFullDTO>> updateUserInfoByAdmin(
+            @PathVariable String uuid,
+            @RequestBody UserUpdateInfoDTO userUpdateInfoDTO
+    ) {
+        User user = userService.findByUUID(uuid);
+        userService.update(user, userUpdateInfoDTO);
+        return ResponseEntity.ok(new HttpResponse<>(userDTOMapper.entityToFullDTO(user)));
+    }
+
     @GetMapping("/admin")
     public ResponseEntity<HttpResponse<Page<UserInfoGetDTO>>> getAllUsers(
             @RequestParam(required = false) String search,
@@ -57,5 +67,14 @@ public class UserController {
     ) {
         Page<User> users = userService.findAllByPhoneOrNameNotDeleted(search, pageable);
         return ResponseEntity.ok(new HttpResponse<>(users.map(userDTOMapper::entityToInfoDTO)));
+    }
+
+    @GetMapping("/{uuid}/admin")
+    public ResponseEntity<HttpResponse<UserInfoFullDTO>> getUserInfoByAdmin(
+            @PathVariable String uuid
+    ) {
+        System.out.println(uuid);
+        User user = userService.findByUUID(uuid);
+        return ResponseEntity.ok(new HttpResponse<>(userDTOMapper.entityToFullDTO(user)));
     }
 }

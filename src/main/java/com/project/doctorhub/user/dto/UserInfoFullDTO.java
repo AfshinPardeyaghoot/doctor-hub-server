@@ -15,6 +15,7 @@ public class UserInfoFullDTO {
     private String phone;
     private String firstName;
     private String lastName;
+    private String role;
 
 
 }
