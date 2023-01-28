@@ -7,6 +7,8 @@ import com.project.doctorhub.speciality.dto.SpecialityCreateDTO;
 import com.project.doctorhub.speciality.dto.SpecialityUpdateDTO;
 import com.project.doctorhub.speciality.model.Speciality;
 import com.project.doctorhub.speciality.repository.SpecialityRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -116,4 +118,9 @@ public class SpecialityService
     }
 
 
+    public Page<Speciality> findAllBySearchNotDeleted(String search, Pageable pageable) {
+        if (search != null)
+            return specialityRepository.findAllBySearchNotDeleted(search, pageable);
+        else return findAllNotDeleted(pageable);
+    }
 }
