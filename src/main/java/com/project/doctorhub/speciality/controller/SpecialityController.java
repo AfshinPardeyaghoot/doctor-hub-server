@@ -48,4 +48,11 @@ public class SpecialityController {
         return ResponseEntity.ok(new HttpResponse<>(specialityDTOMapper.entityToGetDTO(speciality)));
     }
 
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<HttpResponse<Void>> deleteSpeciality(
+            @PathVariable String uuid
+    ) {
+        specialityService.delete(uuid);
+        return ResponseEntity.ok(HttpResponse.EMPTY_SUCCESS());
+    }
 }

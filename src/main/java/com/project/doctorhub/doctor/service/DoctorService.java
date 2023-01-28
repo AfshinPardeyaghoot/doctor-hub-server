@@ -47,7 +47,7 @@ public class DoctorService
             DoctorRepository abstractRepository,
             UserService userService,
             StorageFileService storageFileService,
-            SpecialityService specialityService,
+            @Lazy SpecialityService specialityService,
             DoctorRepository doctorRepository,
             @Lazy DoctorScheduleService doctorScheduleService,
             ConsultationTypeService consultationTypeService,
@@ -376,5 +376,9 @@ public class DoctorService
     public Doctor findByPhoneNotDeleted(String doctorPhone) {
         return doctorRepository.findByPhone(doctorPhone)
                 .orElseThrow(() -> new NotFoundException("پزشکی با شماره تلفن وارد شده پیدا نشد!"));
+    }
+
+    public boolean findBySpeciality(Speciality speciality) {
+        return doctorRepository.existsBySpecialityAndIsDeletedFalse(speciality);
     }
 }

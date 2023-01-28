@@ -3,6 +3,7 @@ package com.project.doctorhub.speciality.service;
 import com.project.doctorhub.base.exception.HttpException;
 import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.service.AbstractCrudService;
+import com.project.doctorhub.doctor.service.DoctorService;
 import com.project.doctorhub.speciality.dto.SpecialityCreateDTO;
 import com.project.doctorhub.speciality.dto.SpecialityUpdateDTO;
 import com.project.doctorhub.speciality.model.Speciality;
@@ -19,12 +20,16 @@ import java.util.Objects;
 @Service
 public class SpecialityService
         extends AbstractCrudService<Speciality, Long, SpecialityRepository> {
+
+    private final DoctorService doctorService;
     private final SpecialityRepository specialityRepository;
 
     public SpecialityService(
+            DoctorService doctorService,
             SpecialityRepository abstractRepository
     ) {
         super(abstractRepository);
+        this.doctorService = doctorService;
         this.specialityRepository = abstractRepository;
     }
 
@@ -139,4 +144,12 @@ public class SpecialityService
         else return findAllNotDeleted(pageable);
     }
 
+    public void delete(String uuid) {
+        Speciality speciality = findByUUIDNotDeleted(uuid);
+        if (doctorService.findBySpeciality(speciality)){
+            throw new HttpException("پزشکی با تخصص مورد نظر وجود دارد!", HttpStatus.BAD_REQUEST);
+        }
+        speciality.setIsDeleted(true);
+        save(speciality);
+    }
 }

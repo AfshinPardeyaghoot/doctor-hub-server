@@ -2,6 +2,7 @@ package com.project.doctorhub.doctor.repository;
 
 import com.project.doctorhub.base.repository.AbstractRepository;
 import com.project.doctorhub.doctor.model.Doctor;
+import com.project.doctorhub.speciality.model.Speciality;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,5 +17,7 @@ public interface DoctorRepository
             "where u.phone = :phone " +
             "and d.isDeleted = false")
     Optional<Doctor> findByPhone(String phone);
+
+    boolean existsBySpecialityAndIsDeletedFalse(Speciality speciality);
 
 }
