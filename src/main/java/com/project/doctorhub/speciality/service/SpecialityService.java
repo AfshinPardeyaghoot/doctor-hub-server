@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SpecialityService
@@ -45,7 +46,7 @@ public class SpecialityService
         return save(speciality);
     }
 
-    public List<Speciality> findAllByUUIDs(List<String> uuids){
+    public List<Speciality> findAllByUUIDs(List<String> uuids) {
         return specialityRepository.findAllByUUIDInAndIsDeletedFalse(uuids);
     }
 
@@ -58,13 +59,27 @@ public class SpecialityService
         return save(speciality);
     }
 
+    public Speciality update(String uuid, SpecialityCreateDTO createDTO) {
+        Speciality speciality = findByUUIDNotDeleted(uuid);
+        if (!Objects.equals(speciality.getName(), createDTO.getName()) && specialityRepository.findByNameIgnoreCase(createDTO.getName()).isPresent())
+            throw new HttpException("نام وارد شده تکراری است!", HttpStatus.BAD_REQUEST);
 
-    public void seeder(){
+        if (createDTO.getTitle() != null)
+            speciality.setTitle(createDTO.getTitle());
+
+        if (createDTO.getName() != null)
+            speciality.setName(createDTO.getName().toLowerCase());
+
+        return save(speciality);
+    }
+
+
+    public void seeder() {
         create("nutrition_senior", "کارشناس ارشد تغذیه");
         create("nutrition", "کارشناس تغذیه");
 
         create("child_expert", "متخصص بیماری های کودکان");
-        create("child_expert_assistant","دستیار تخصصی  بیماری های کودکان");
+        create("child_expert_assistant", "دستیار تخصصی  بیماری های کودکان");
         create("child_specialist", "فوق تخصص کودکان");
 
         create("dentist", "دندانپزشک ");
@@ -108,7 +123,7 @@ public class SpecialityService
     }
 
     private void create(String name, String title) {
-        if (specialityRepository.findByNameIgnoreCase(name).isEmpty()){
+        if (specialityRepository.findByNameIgnoreCase(name).isEmpty()) {
             Speciality speciality = new Speciality();
             speciality.setName(name);
             speciality.setTitle(title);
@@ -123,4 +138,5 @@ public class SpecialityService
             return specialityRepository.findAllBySearchNotDeleted(search, pageable);
         else return findAllNotDeleted(pageable);
     }
+
 }
