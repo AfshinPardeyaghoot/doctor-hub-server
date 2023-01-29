@@ -64,7 +64,7 @@ public class SpecialityCategoryService
         specialityCategories.forEach(this::safeDelete);
     }
 
-    private List<SpecialityCategory> findAllByCategoryNotDeleted(Category category) {
+    public List<SpecialityCategory> findAllByCategoryNotDeleted(Category category) {
         return specialityCategoryRepository.findAllByCategoryAndIsDeletedFalse(category);
     }
 

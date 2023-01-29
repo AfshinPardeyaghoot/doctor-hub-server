@@ -14,6 +14,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/speciality")
@@ -29,6 +31,12 @@ public class SpecialityController {
     ) {
         Page<Speciality> specialities = specialityService.findAllBySearchNotDeleted(search, pageable);
         return ResponseEntity.ok(new HttpResponse<>(specialities.map(specialityDTOMapper::entityToGetDTO)));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<HttpResponse<List<SpecialityGetDTO>>> getAllSpecialities() {
+        List<Speciality> specialities = specialityService.findAllNotDeleted();
+        return ResponseEntity.ok(new HttpResponse<>(specialities.stream().map(specialityDTOMapper::entityToGetDTO).toList()));
     }
 
     @PostMapping
@@ -47,6 +55,7 @@ public class SpecialityController {
         Speciality speciality = specialityService.update(uuid, createDTO);
         return ResponseEntity.ok(new HttpResponse<>(specialityDTOMapper.entityToGetDTO(speciality)));
     }
+
 
     @DeleteMapping("/{uuid}")
     public ResponseEntity<HttpResponse<Void>> deleteSpeciality(

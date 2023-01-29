@@ -15,10 +15,13 @@ import com.project.doctorhub.storageFile.model.StorageFileType;
 import com.project.doctorhub.storageFile.service.StorageFileService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.List;
 
 @Service
@@ -44,6 +47,14 @@ public class CategoryService
     public Category findByName(String name) {
         return categoryRepository.findByNameIgnoreCase(name)
                 .orElseThrow(() -> new NotFoundException("speciality category not found"));
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<Category> findAllBySearchAndIsDeletedFalse(String search, Pageable pageable) {
+        if (search != null)
+            return categoryRepository.findAllBySearchAndIsDeletedFalse(search, pageable);
+        return findAllNotDeleted(pageable);
     }
 
     @Transactional
