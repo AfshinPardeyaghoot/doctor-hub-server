@@ -6,10 +6,13 @@ import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.service.DoctorService;
 import com.project.doctorhub.schedule.dto.DoctorScheduleAddDTO;
 import com.project.doctorhub.schedule.dto.DoctorScheduleDeleteDTO;
+import com.project.doctorhub.schedule.dto.DoctorScheduleUpdateDTO;
 import com.project.doctorhub.schedule.model.DayOfWeek;
 import com.project.doctorhub.schedule.model.DoctorSchedule;
 import com.project.doctorhub.schedule.repository.DoctorScheduleRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,33 +22,35 @@ public class DoctorScheduleService
         extends AbstractCrudService<DoctorSchedule, Long, DoctorScheduleRepository> {
 
     private final DoctorService doctorService;
+    private final DoctorAvailableDayService doctorAvailableDayService;
     private final DoctorScheduleRepository doctorScheduleRepository;
 
     public DoctorScheduleService(
             DoctorScheduleRepository abstractRepository,
+            @Lazy DoctorAvailableDayService doctorAvailableDayService,
             DoctorService doctorService
     ) {
         super(abstractRepository);
         this.doctorService = doctorService;
         this.doctorScheduleRepository = abstractRepository;
+        this.doctorAvailableDayService = doctorAvailableDayService;
     }
 
 
-    public DoctorSchedule create(DoctorScheduleAddDTO doctorScheduleAddDTO) {
-        Doctor doctor = doctorService.findByPhoneNotDeleted(doctorScheduleAddDTO.getDoctorPhone());
-        Optional<DoctorSchedule> doctorScheduleOptional = doctorScheduleRepository.findByDoctorAndDay(doctor, doctorScheduleAddDTO.getDay());
+    public DoctorSchedule createOrUpdate(Doctor doctor, DayOfWeek day, String startHour, String endHour) {
+        Optional<DoctorSchedule> doctorScheduleOptional = doctorScheduleRepository.findByDoctorAndDay(doctor, day);
         DoctorSchedule doctorSchedule;
         if (doctorScheduleOptional.isPresent()) {
             doctorSchedule = doctorScheduleOptional.get();
         } else {
             doctorSchedule = new DoctorSchedule();
             doctorSchedule.setDoctor(doctor);
-            doctorSchedule.setDay(doctorScheduleAddDTO.getDay());
-            doctorSchedule.setOrderIndex(doctorScheduleAddDTO.getDay().getOrder());
+            doctorSchedule.setDay(day);
+            doctorSchedule.setOrderIndex(day.getOrder());
         }
         doctorSchedule.setIsDeleted(false);
-        doctorSchedule.setEndHour(doctorScheduleAddDTO.getEndHour());
-        doctorSchedule.setStartHour(doctorScheduleAddDTO.getStartHour());
+        doctorSchedule.setEndHour(endHour);
+        doctorSchedule.setStartHour(startHour);
         return save(doctorSchedule);
     }
 
@@ -78,7 +83,7 @@ public class DoctorScheduleService
         return save(doctorSchedule);
     }
 
-    public DoctorSchedule create(Doctor doctor, DayOfWeek day, String startHour, String endHour){
+    public DoctorSchedule create(Doctor doctor, DayOfWeek day, String startHour, String endHour) {
         DoctorSchedule doctorSchedule = new DoctorSchedule();
         doctorSchedule.setDay(day);
         doctorSchedule.setDoctor(doctor);
@@ -87,6 +92,23 @@ public class DoctorScheduleService
         doctorSchedule.setOrderIndex(day.getOrder());
         doctorSchedule.setIsDeleted(false);
         return save(doctorSchedule);
+    }
+
+    @Transactional
+    public void update(Doctor doctor, List<DoctorScheduleUpdateDTO> schedules) {
+        deleteAllDoctorScheduleDays(doctor);
+        for (DoctorScheduleUpdateDTO schedule : schedules){
+            createOrUpdate(doctor, schedule.getDay(), schedule.getStartHour(), schedule.getEndHour());
+        }
+    }
+
+
+    @Transactional
+    public void deleteAllDoctorScheduleDays(Doctor doctor) {
+        List<DoctorSchedule> doctorSchedules = findAllByDoctorNotDeleted(doctor.getUUID());
+        doctorSchedules.forEach(doctorSchedule -> doctorSchedule.setIsDeleted(true));
+        doctorScheduleRepository.saveAll(doctorSchedules);
+        doctorAvailableDayService.deleteAllByDoctor(doctor);
     }
 
 }

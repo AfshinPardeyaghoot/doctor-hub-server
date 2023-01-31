@@ -37,6 +37,11 @@ public class DoctorAvailableDayService
         return findByDoctorAndDateBetween(doctor, Instant.now());
     }
 
+    public void deleteAllByDoctor(Doctor doctor){
+        doctorAvailableDayRepository.deleteAllByDoctor(doctor);
+    }
+
+
     public boolean findByDoctorAndDateBetween(Doctor doctor, Instant date) {
         return doctorAvailableDayRepository.findByDoctorAndDateBetween(doctor, date).isPresent();
     }

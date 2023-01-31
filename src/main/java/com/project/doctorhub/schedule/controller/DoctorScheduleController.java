@@ -22,14 +22,6 @@ public class DoctorScheduleController {
     private final DoctorScheduleService doctorScheduleService;
     private final DoctorScheduleDTOMapper doctorScheduleDTOMapper;
 
-    @PostMapping
-    public ResponseEntity<HttpResponse<DoctorScheduleGetDTO>> addDoctorSchedule(
-            @Valid @RequestBody DoctorScheduleAddDTO doctorScheduleAddDTO
-    ) {
-        DoctorSchedule doctorSchedule = doctorScheduleService.create(doctorScheduleAddDTO);
-        DoctorScheduleGetDTO doctorScheduleGetDTO = doctorScheduleDTOMapper.entityToGetDTO(doctorSchedule);
-        return ResponseEntity.ok(new HttpResponse<>(doctorScheduleGetDTO));
-    }
 
     @DeleteMapping
     public ResponseEntity<HttpResponse<String>> deleteDoctorSchedule(

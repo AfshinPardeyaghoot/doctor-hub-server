@@ -16,4 +16,6 @@ public interface DoctorAvailableDayRepository
 
     @Query("select dad from DoctorAvailableDay dad where dad.doctor = :doctor and :date between dad.startHour and dad.endHour")
     Optional<DoctorAvailableDay> findByDoctorAndDateBetween(Doctor doctor, Instant date);
+
+    void deleteAllByDoctor(Doctor doctor);
 }

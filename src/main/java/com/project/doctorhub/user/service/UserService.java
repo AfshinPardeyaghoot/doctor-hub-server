@@ -99,7 +99,7 @@ public class UserService
 
 
     @Transactional
-    public User createOrFetch(String phone, String roleName) {
+    public User createOrFetch(String phone, String roleName, String firstname, String lastname) {
         User user = userRepository.findByPhone(phone)
                 .orElseGet(() -> create(phone, roleName));
 
