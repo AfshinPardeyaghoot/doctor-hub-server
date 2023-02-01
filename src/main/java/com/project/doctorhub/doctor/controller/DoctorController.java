@@ -1,11 +1,8 @@
 package com.project.doctorhub.doctor.controller;
 
 import com.project.doctorhub.base.dto.HttpResponse;
-import com.project.doctorhub.doctor.dto.DoctorCreateDTO;
-import com.project.doctorhub.doctor.dto.DoctorDTOMapper;
-import com.project.doctorhub.doctor.dto.DoctorGetDTO;
+import com.project.doctorhub.doctor.dto.*;
 
-import com.project.doctorhub.doctor.dto.DoctorUpdateDTO;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.service.DoctorService;
 import com.project.doctorhub.schedule.service.DoctorAvailableDayService;
@@ -71,5 +68,13 @@ public class DoctorController {
         return ResponseEntity.ok(new HttpResponse<>(doctorGetDTO));
     }
 
+    @GetMapping("/{uuid}/full")
+    public ResponseEntity<HttpResponse<DoctorFullDTO>> getFullDoctorByUUID(
+            @PathVariable String uuid
+    ) {
+        Doctor doctor = doctorService.findByUUIDNotDeleted(uuid);
+        DoctorFullDTO doctorFullDTO = doctorDTOMapper.entityToFullDTO(doctor);
+        return ResponseEntity.ok(new HttpResponse<>(doctorFullDTO));
+    }
 
 }

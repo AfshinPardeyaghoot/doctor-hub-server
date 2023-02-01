@@ -36,6 +36,27 @@ public class DoctorDTOMapper {
         return dto;
     }
 
+    public DoctorFullDTO entityToFullDTO(Doctor entity) {
+        DoctorFullDTO dto = new DoctorFullDTO();
+        dto.setId(entity.getUUID());
+        dto.setPhone(entity.getUser().getPhone());
+        dto.setFirstName(entity.getUser().getFirstName());
+        dto.setLastName(entity.getUser().getLastName());
+        dto.setDescription(entity.getDescription());
+        dto.setGmcNumber(entity.getGmcNumber());
+        dto.setRate(entity.getRate());
+        dto.setConsultationCount(entity.getConsultationCount());
+        dto.setSpeciality(specialityDTOMapper.entityToGetDTO(entity.getSpeciality()));
+        dto.setProfileImage(storageFileDTOMapper.getStorageFileDownloadUrl(entity.getProfileImage()));
+        dto.setConsultationTypes(
+                entity.getDoctorConsultationTypes().stream()
+                        .filter(doctorConsultationType -> !doctorConsultationType.getIsDeleted())
+                        .map(doctorConsultationTypeDTOMapper::entityToGetDTO)
+                        .collect(Collectors.toSet())
+        );
+        return dto;
+    }
+
     public DoctorGetDTO entityToGetDTO(Doctor entity) {
         DoctorGetDTO dto = new DoctorGetDTO();
         dto.setId(entity.getUUID());
