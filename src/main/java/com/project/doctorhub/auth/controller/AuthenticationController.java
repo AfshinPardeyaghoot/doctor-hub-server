@@ -40,11 +40,10 @@ public class AuthenticationController {
 
     @GetMapping("/token/refresh/{uuid}")
     public ResponseEntity<HttpResponse<UserLoginResponseDTO>> getAccessTokenByRefreshToken(
-            @PathVariable String uuid,
-            Authentication authentication
+            @PathVariable String uuid
     ) {
-        User user = userService.findByAuthentication(authentication);
-        AuthenticationTokenDTO authenticationTokenDTO = userService.refreshTokens(uuid);
+        User user = userService.getRefreshTokenUser(uuid);
+        AuthenticationTokenDTO authenticationTokenDTO = userService.refreshTokens(user);
         return ResponseEntity.ok(new HttpResponse<>(userDTOMapper.entityToUserLoginResponseDTO(user, authenticationTokenDTO)));
     }
 

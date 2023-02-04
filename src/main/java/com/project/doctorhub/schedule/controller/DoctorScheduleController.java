@@ -36,7 +36,16 @@ public class DoctorScheduleController {
             @PathVariable String uuid
     ) {
         List<DoctorSchedule> doctorSchedules = doctorScheduleService.findAllByDoctorNotDeleted(uuid);
-        List<DoctorScheduleGetDTO> doctorScheduleGetDTOS = doctorSchedules.stream().map(doctorScheduleDTOMapper::entityToGetDTO).toList();
+        List<DoctorScheduleGetDTO> doctorScheduleGetDTOS = doctorSchedules.stream().map(doctorScheduleDTOMapper::entityToFaGetDTO).toList();
+        return ResponseEntity.ok(new HttpResponse<>(doctorScheduleGetDTOS));
+    }
+
+    @GetMapping("/{uuid}/en")
+    public ResponseEntity<HttpResponse<List<DoctorScheduleGetDTO>>> getDoctorSchedulesEn(
+            @PathVariable String uuid
+    ) {
+        List<DoctorSchedule> doctorSchedules = doctorScheduleService.findAllByDoctorNotDeleted(uuid);
+        List<DoctorScheduleGetDTO> doctorScheduleGetDTOS = doctorSchedules.stream().map(doctorScheduleDTOMapper::entityToEnGetDTO).toList();
         return ResponseEntity.ok(new HttpResponse<>(doctorScheduleGetDTOS));
     }
 
@@ -45,7 +54,7 @@ public class DoctorScheduleController {
             @Valid @RequestBody DoctorScheduleAddDTO doctorScheduleAddDTO
     ) {
         DoctorSchedule doctorSchedule = doctorScheduleService.update(doctorScheduleAddDTO);
-        DoctorScheduleGetDTO doctorScheduleGetDTO = doctorScheduleDTOMapper.entityToGetDTO(doctorSchedule);
+        DoctorScheduleGetDTO doctorScheduleGetDTO = doctorScheduleDTOMapper.entityToFaGetDTO(doctorSchedule);
         return ResponseEntity.ok(new HttpResponse<>(doctorScheduleGetDTO));
     }
 

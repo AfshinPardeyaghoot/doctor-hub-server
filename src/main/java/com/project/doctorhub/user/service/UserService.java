@@ -81,9 +81,12 @@ public class UserService
         sendAuthenticationSms(user, code);
     }
 
-    public AuthenticationTokenDTO refreshTokens(String refreshToken) {
-        User user = refreshTokenService.getRefreshTokenUser(refreshToken);
+    public AuthenticationTokenDTO refreshTokens(User user) {
         return jwtUtil.generateAuthenticationToken(user);
+    }
+
+    public User getRefreshTokenUser(String refreshToken){
+        return refreshTokenService.getRefreshTokenUser(refreshToken);
     }
 
     private void sendAuthenticationSms(User user, String code) {
