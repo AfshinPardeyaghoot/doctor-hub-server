@@ -85,6 +85,14 @@ public class CategoryController {
         return ResponseEntity.ok(new HttpResponse<>(categoryDTOMapper.entityToFullDTO(category, specialities)));
     }
 
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<HttpResponse<Void>> deleteCategory(
+            @PathVariable String uuid
+    ) {
+        categoryService.delete(uuid);
+        return ResponseEntity.ok(HttpResponse.EMPTY_SUCCESS());
+    }
+
 
     @GetMapping("/{uuid}/doctors")
     public ResponseEntity<HttpResponse<Page<DoctorGetDTO>>> getAllCategoryDoctors(

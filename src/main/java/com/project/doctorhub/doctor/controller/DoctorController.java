@@ -79,6 +79,14 @@ public class DoctorController {
         return ResponseEntity.ok(new HttpResponse<>(doctorGetDTO));
     }
 
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<HttpResponse<Void>> deleteDoctor(
+            @PathVariable String uuid
+    ) {
+        doctorService.delete(uuid);
+        return ResponseEntity.ok(HttpResponse.EMPTY_SUCCESS());
+    }
+
     @GetMapping("/{uuid}/full")
     public ResponseEntity<HttpResponse<DoctorFullDTO>> getFullDoctorByUUID(
             @PathVariable String uuid

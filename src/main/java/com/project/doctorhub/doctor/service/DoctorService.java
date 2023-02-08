@@ -163,6 +163,11 @@ public class DoctorService
         return doctorRepository.findAllByIsDeleted(false);
     }
 
+    public void delete(String uuid){
+        Doctor doctor = findByUUIDNotDeleted(uuid);
+        delete(doctor);
+    }
+
 
     public void seeder() throws Exception {
         if (doctorRepository.count() == 0) {

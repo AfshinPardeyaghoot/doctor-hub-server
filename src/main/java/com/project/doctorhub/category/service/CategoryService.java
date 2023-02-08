@@ -151,6 +151,11 @@ public class CategoryService
         }
     }
 
+    public void delete(String uuid){
+        Category category = findByUUIDNotDeleted(uuid);
+        delete(category);
+    }
+
     public List<Doctor> findAllCategoryDoctors(String uuid) {
         return categoryRepository.findAllCategoryDoctors(uuid);
     }
