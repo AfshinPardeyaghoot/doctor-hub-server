@@ -53,6 +53,7 @@ public class AuthorizationConfiguration
         http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/v1/chat/**/end").hasAuthority("DOCTOR");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/v1/doctor/**", "/api/v1/schedule/doctor/**", "/api/v1/category/**", "/api/v1/speciality/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/v1/doctor/**", "/api/v1/speciality/**", "/api/v1/schedule/doctor/**", "/api/v1/category/**").hasAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/v1/doctor/**").hasAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
         http.addFilter(otpAuthenticationFilter);

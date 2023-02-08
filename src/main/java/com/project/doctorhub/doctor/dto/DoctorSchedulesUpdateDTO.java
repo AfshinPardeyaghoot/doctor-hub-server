@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DoctorUpdateDTO {
+public class DoctorSchedulesUpdateDTO {
 
-    private String phone;
-    private String firstname;
-    private String lastname;
-    private String description;
-    private String gmcNumber;
-    private MultipartFile profileImage;
-    private String specialityId;
-
+    List<DoctorScheduleUpdateDTO> schedules = new ArrayList<>();
 }

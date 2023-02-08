@@ -5,6 +5,7 @@ import com.project.doctorhub.doctor.dto.*;
 
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.service.DoctorService;
+import com.project.doctorhub.schedule.dto.DoctorScheduleUpdateDTO;
 import com.project.doctorhub.schedule.service.DoctorAvailableDayService;
 import com.project.doctorhub.util.ListUtil;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,16 @@ public class DoctorController {
     ) {
 
         Doctor doctor = doctorService.update(uuid, doctorUpdateDTO);
+        DoctorGetDTO doctorGetDTO = doctorDTOMapper.entityToGetDTO(doctor);
+        return ResponseEntity.ok(new HttpResponse<>(doctorGetDTO));
+    }
+
+    @PutMapping("/{uuid}/schedules")
+    public ResponseEntity<HttpResponse<DoctorGetDTO>> updateDoctor(
+            @PathVariable String uuid,
+            @RequestBody DoctorSchedulesUpdateDTO schedules
+    ) {
+        Doctor doctor = doctorService.updateDoctorSchedules(uuid, schedules.getSchedules());
         DoctorGetDTO doctorGetDTO = doctorDTOMapper.entityToGetDTO(doctor);
         return ResponseEntity.ok(new HttpResponse<>(doctorGetDTO));
     }

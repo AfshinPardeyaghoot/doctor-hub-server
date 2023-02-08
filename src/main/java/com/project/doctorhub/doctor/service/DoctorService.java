@@ -10,6 +10,7 @@ import com.project.doctorhub.doctor.dto.DoctorCreateDTO;
 import com.project.doctorhub.doctor.dto.DoctorUpdateDTO;
 import com.project.doctorhub.doctor.model.Doctor;
 import com.project.doctorhub.doctor.repository.DoctorRepository;
+import com.project.doctorhub.schedule.dto.DoctorScheduleUpdateDTO;
 import com.project.doctorhub.schedule.model.DayOfWeek;
 import com.project.doctorhub.schedule.service.DoctorScheduleService;
 import com.project.doctorhub.speciality.model.Speciality;
@@ -145,12 +146,17 @@ public class DoctorService
             doctor.setSpeciality(speciality);
         }
 
-        if (doctorUpdateDTO.getSchedules() != null && doctorUpdateDTO.getSchedules().size() > 1) {
-            doctorScheduleService.update(doctor, doctorUpdateDTO.getSchedules());
-        }
 
         userService.save(doctor.getUser());
         return save(doctor);
+    }
+
+    public Doctor updateDoctorSchedules(String uuid, List<DoctorScheduleUpdateDTO> schedules) {
+        Doctor doctor = findByUUIDNotDeleted(uuid);
+        if (schedules != null && schedules.size() > 0) {
+            doctorScheduleService.update(doctor, schedules);
+        }
+        return doctor;
     }
 
     public List<Doctor> findAllByNameLike() {
