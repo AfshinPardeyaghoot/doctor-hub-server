@@ -85,7 +85,7 @@ public class UserService
         return jwtUtil.generateAuthenticationToken(user);
     }
 
-    public User getRefreshTokenUser(String refreshToken){
+    public User getRefreshTokenUser(String refreshToken) {
         return refreshTokenService.getRefreshTokenUser(refreshToken);
     }
 
@@ -104,7 +104,7 @@ public class UserService
     @Transactional
     public User createOrFetch(String phone, String roleName, String firstname, String lastname) {
         User user = userRepository.findByPhone(phone)
-                .orElseGet(() -> create(phone, roleName));
+                .orElseGet(() -> create(phone, roleName, firstname, lastname));
 
         if (user.getUserRoles().stream().noneMatch(userRole -> userRole.getRole().getName().equals(roleName))) {
             addUserRole(user, roleName);
@@ -130,6 +130,17 @@ public class UserService
     private User create(String phone, String role) {
         User user = new User();
         user.setPhone(phone);
+        user.setIsDeleted(false);
+        save(user);
+        addUserRole(user, role);
+        return user;
+    }
+
+    private User create(String phone, String role, String firstname, String lastName) {
+        User user = new User();
+        user.setPhone(phone);
+        user.setFirstName(firstname);
+        user.setLastName(lastName);
         user.setIsDeleted(false);
         save(user);
         addUserRole(user, role);
@@ -171,7 +182,7 @@ public class UserService
     }
 
     private void updateRole(User user, UserUpdateInfoDTO userUpdateInfoDTO) {
-        if (userUpdateInfoDTO.getRole() != null){
+        if (userUpdateInfoDTO.getRole() != null) {
             userRoleService.updateUserRole(user, roleService.getByName(userUpdateInfoDTO.getRole()));
         }
     }

@@ -1,6 +1,8 @@
 package com.project.doctorhub.doctor.service;
 
 import com.project.doctorhub.auth.model.Role;
+import com.project.doctorhub.auth.service.RoleService;
+import com.project.doctorhub.auth.service.UserRoleService;
 import com.project.doctorhub.base.exception.HttpException;
 import com.project.doctorhub.base.exception.NotFoundException;
 import com.project.doctorhub.base.service.AbstractCrudService;
@@ -36,7 +38,9 @@ public class DoctorService
 
     private final RandomUtil randomUtil;
     private final UserService userService;
+    private final RoleService roleService;
     private final DoctorRepository doctorRepository;
+    private final UserRoleService userRoleService;
     private final SpecialityService specialityService;
     private final StorageFileService storageFileService;
     private final DoctorScheduleService doctorScheduleService;
@@ -47,6 +51,8 @@ public class DoctorService
             RandomUtil randomUtil,
             DoctorRepository abstractRepository,
             UserService userService,
+            RoleService roleService,
+            UserRoleService userRoleService,
             StorageFileService storageFileService,
             @Lazy SpecialityService specialityService,
             DoctorRepository doctorRepository,
@@ -56,7 +62,9 @@ public class DoctorService
     ) {
         super(abstractRepository);
         this.randomUtil = randomUtil;
+        this.roleService = roleService;
         this.userService = userService;
+        this.userRoleService = userRoleService;
         this.doctorRepository = doctorRepository;
         this.specialityService = specialityService;
         this.storageFileService = storageFileService;
@@ -95,10 +103,8 @@ public class DoctorService
                 speciality
         );
 
-        if (doctorCreateDTO.getSchedules() != null && doctorCreateDTO.getSchedules().size() > 0) {
-            doctorScheduleService.update(doctor, doctorCreateDTO.getSchedules());
-        }
-
+        ConsultationType textConsultation = consultationTypeService.findByNameNotDeleted("text");
+        doctorConsultationTypeService.create(doctor, textConsultation, doctorCreateDTO.getPrice());
         return doctor;
     }
 
@@ -109,6 +115,8 @@ public class DoctorService
         doctor.setGmcNumber(gmcNumber);
         doctor.setProfileImage(profileImage);
         doctor.setIsDeleted(false);
+        doctor.setConsultationCount(0);
+        doctor.setRate(5f);
         doctor.setSpeciality(speciality);
         return save(doctor);
     }
@@ -163,9 +171,10 @@ public class DoctorService
         return doctorRepository.findAllByIsDeleted(false);
     }
 
-    public void delete(String uuid){
+    public void delete(String uuid) {
         Doctor doctor = findByUUIDNotDeleted(uuid);
-        delete(doctor);
+        userRoleService.updateUserRole(doctor.getUser(), roleService.getByName(Role.USER_ROLE));
+        safeDelete(doctor);
     }
 
 

@@ -25,6 +25,8 @@ public class DoctorCreateDTO {
     @NotEmpty(message = "لطفا شماره تلفن پزشک را وارد کنید!")
     private String phone;
 
+    private Long price;
+
     @NotEmpty(message = "لطفا توضیحات را وارد کنید!")
     private String description;
 
@@ -36,6 +38,4 @@ public class DoctorCreateDTO {
 
     @NotNull(message = "لطفا تخصص پزشک را انتخاب نمایید")
     private String specialityId;
-
-    private List<DoctorScheduleUpdateDTO> schedules = new ArrayList<>();
 }
