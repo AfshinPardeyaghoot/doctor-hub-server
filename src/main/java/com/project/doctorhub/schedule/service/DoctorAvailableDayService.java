@@ -43,7 +43,7 @@ public class DoctorAvailableDayService
 
 
     public boolean findByDoctorAndDateBetween(Doctor doctor, Instant date) {
-        return doctorAvailableDayRepository.findByDoctorAndDateBetween(doctor, date).isPresent();
+        return doctorAvailableDayRepository.findByDoctorAndDateBetween(doctor, date).stream().findAny().isPresent();
     }
 
     private void calculateDoctorAvailableTimes(Doctor doctor, Instant endTime) {

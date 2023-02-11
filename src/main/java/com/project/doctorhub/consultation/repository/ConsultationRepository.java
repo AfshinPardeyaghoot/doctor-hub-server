@@ -22,7 +22,7 @@ public interface ConsultationRepository extends AbstractRepository<Consultation,
     @Query("select c from Consultation c " +
             "inner join Doctor d on c.doctor = d " +
             "where (d.user = :user or c.user =:user) " +
-            "and c.isDeleted = false ")
+            "and c.isDeleted = false order by c.createdAt desc ")
     Page<Consultation> findByUserAndIsDeletedFalse(User user, Pageable pageable);
 
 
@@ -30,6 +30,6 @@ public interface ConsultationRepository extends AbstractRepository<Consultation,
             "inner join Doctor d on c.doctor = d " +
             "where (d.user = :user or c.user =:user) " +
             "and c.isDeleted = false " +
-            "and c.status = :status ")
+            "and c.status = :status order by c.createdAt desc")
     List<Consultation> findAllByUserAndStatusAndIsDeletedFalse(User user, ConsultationStatusType status);
 }
